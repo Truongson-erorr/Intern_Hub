@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Maille - SaaS Website Template</title>
+        <title>Tdmu - Interhub</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -45,7 +45,7 @@
         <div class="container-fluid header position-relative overflow-hidden p-0">
             <nav class="navbar navbar-expand-lg fixed-top navbar-light px-4 px-lg-5 py-3 py-lg-0">
                 <a href="index.html" class="navbar-brand p-0">
-                    <h1 class="display-6 text-primary m-0"><i class="fas fa-envelope me-3"></i>Mailler</h1>
+                    <h1 class="display-6 text-primary m-0"><i class="fas fa-envelope me-3"></i>TDMU - Interhub</h1>
                     <!-- <img src="img/logo.png" alt="Logo"> -->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -53,7 +53,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a href="{{ url('user/trangchu') }}" class="nav-item nav-link active">Home</a>
                         <a href="about.html" class="nav-item nav-link">About</a>
                         <a href="service.html" class="nav-item nav-link">Services</a>
                         <div class="nav-item dropdown">
@@ -63,7 +63,7 @@
                                 <a href="pricing.html" class="dropdown-item">Pricing</a>
                                 <a href="blog.html" class="dropdown-item">Blog</a>
                                 <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Page</a>
+                                
                             </div>
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact Us</a>

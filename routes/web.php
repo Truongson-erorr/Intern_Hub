@@ -11,4 +11,6 @@ Route::get('authen/login', function () {
 Route::get('authen/register', function () {
     return view('authen.register'); 
 });
-
+Route::get('user/trangchu', function () {
+    return view('user.trangchu');
+});
