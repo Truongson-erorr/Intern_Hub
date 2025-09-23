@@ -68,8 +68,8 @@
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact Us</a>
                     </div>
-                    <a href="" class="btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-4">Log In</a>
-                    <a href="{{ url('authen/login') }}" class="btn btn-primary rounded-pill text-white py-2 px-4">Sign Up</a>
+                    <a href="{{ url('authen/login') }}" class="btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-4">Log In</a>
+                    <a href="{{ url('authen/register') }}" class="btn btn-primary rounded-pill text-white py-2 px-4">Sign Up</a>
                 </div>
             </nav>
 

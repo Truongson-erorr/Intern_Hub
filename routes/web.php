@@ -8,5 +8,7 @@ Route::get('/', function () {
 Route::get('authen/login', function () {
     return view('authen.login'); 
 }); 
-
+Route::get('authen/register', function () {
+    return view('authen.register'); 
+});
 
