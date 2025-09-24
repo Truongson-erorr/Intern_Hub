@@ -78,9 +78,16 @@
         <p class="mb-4 wow animate__fadeInUp" data-wow-delay="0.4s">
             Kết nối với hàng ngàn công ty công nghệ hàng đầu tại Việt Nam
         </p>
-        <a href="#" class="btn btn-primary btn-lg rounded-pill px-5 py-3 wow animate__fadeInUp" data-wow-delay="0.6s">
-            Bắt đầu tìm việc
-        </a>
+
+        @if(session()->has('user'))
+            <a href="{{ url('authen/logout') }}" class="btn btn-danger btn-lg rounded-pill px-5 py-3 wow animate__fadeInUp" data-wow-delay="0.6s">
+                Đăng xuất
+            </a>
+        @else
+            <a href="{{ url('authen/login') }}" class="btn btn-primary btn-lg rounded-pill px-5 py-3 wow animate__fadeInUp" data-wow-delay="0.6s">
+                Bắt đầu tìm việc
+            </a>
+        @endif
     </div>
 </div>
 

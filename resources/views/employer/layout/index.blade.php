@@ -68,10 +68,12 @@
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact Us</a>
                     </div>
-                    <a href="{{ url('authen/login') }}" class="btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-4">Log In</a>
-
-                    <a href="{{ url('authen/register') }}" class="btn btn-primary rounded-pill text-white py-2 px-4">Sign Up</a>
-
+                    @if(session()->has('user'))
+                        <a href="{{ url('authen/logout') }}" class="btn btn-danger rounded-pill py-2 px-4">Đăng xuất</a>
+                    @else
+                        <a href="{{ url('authen/login') }}" class="btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-2">Log In</a>
+                        <a href="{{ url('authen/register') }}" class="btn btn-primary rounded-pill text-white py-2 px-4">Sign Up</a>
+                    @endif
                 </div>
             </nav>
 
@@ -138,8 +140,7 @@
         <!-- Footer End -->
 
         
-        
-        <!-- Copyright End -->
+     
 
 
         <!-- Back to Top -->

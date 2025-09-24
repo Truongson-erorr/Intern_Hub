@@ -5,6 +5,15 @@
 @section('content')
 <div class="container mt-5 pt-5" style="max-width: 500px;">
     <h2 class="mb-4 text-center">Đăng nhập</h2>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger">{{ $errors->first() }}</div>
+    @endif
+
     <form method="POST" action="{{ url('authen/login') }}">
         @csrf
         <div class="mb-3">
@@ -15,6 +24,7 @@
         </div>
         <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
     </form>
+
     <p class="mt-3 text-center">
         Chưa có tài khoản? <a href="{{ url('authen/register') }}">Đăng ký</a>
     </p>
