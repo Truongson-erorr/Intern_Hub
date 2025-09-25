@@ -20,3 +20,5 @@ Route::get('user/trangchu', function () {
 
 // Trang chủ employer (danh sách jobs)
 Route::get('/user/trangchu', [JobController::class, 'index'])->name('user.trangchu');
+Route::get('/user/timviec', [JobController::class, 'timviec']);
+Route::get('jobs/{id}', [JobController::class, 'show'])->name('jobs.show');

@@ -78,7 +78,7 @@
 .job-card .location { color: #6c757d; font-size: 14px; margin-bottom: 15px; }
 .job-badge {
     display: inline-block;
-    font-weight: bold;
+    
     padding: 5px 12px;
     border-radius: 12px;
     margin-right: 8px;
@@ -109,9 +109,15 @@
         <p class="mb-5">Kết nối với hàng ngàn công ty công nghệ hàng đầu tại Việt Nam</p>
         <div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
             <form method="GET" action="{{ url('user/timviec') }}" class="d-flex">
-                <input type="text" name="keyword" class="form-control rounded-pill me-2 px-4" placeholder="Nhập công việc..." style="width: 600px; height: 60px; font-size: 16px;">
+                <input type="text" name="keyword" class="form-control rounded-pill me-2 px-4"
+                    placeholder="Nhập công việc..."
+                    style="width: 600px; height: 60px; font-size: 16px;">
+                <button type="submit" 
+                        class="btn btn-light rounded-pill px-4 fw-bold"
+                        style="background: linear-gradient(135deg, #5cb3ff 0%, #fe008c 100%); color: #fe4848ff;">
+                     Tìm kiếm
+                </button>
             </form>
-            <a href="{{ url('authen/login') }}" class="btn btn-primary btn-lg rounded-pill px-5 py-3">Bắt đầu tìm việc</a>
         </div>
     </div>
 </div>
