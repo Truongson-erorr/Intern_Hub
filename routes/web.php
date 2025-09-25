@@ -2,10 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
-Route::get('/', function () {
-    return view('employer.layout.index');
-});
+use App\Http\Controllers\JobController;
 
 // Routes đăng nhập, đăng xuất
 Route::get('authen/login', [AuthController::class, 'showLoginForm']);
@@ -20,3 +17,6 @@ Route::post('authen/register', [AuthController::class, 'register']);
 Route::get('user/trangchu', function () {
     return view('user.trangchu');
 });
+
+// Trang chủ employer (danh sách jobs)
+Route::get('/user/trangchu', [JobController::class, 'index'])->name('user.trangchu');
