@@ -132,6 +132,6 @@
         @empty
             <p class="text-center">Không tìm thấy công việc nào phù hợp.</p>
         @endforelse
-    </div>
+    </div>       
 </div>
 @endsection
