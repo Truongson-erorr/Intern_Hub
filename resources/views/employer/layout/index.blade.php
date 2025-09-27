@@ -53,26 +53,26 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
-                        <a href="{{ url('user/trangchu') }}" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="service.html" class="nav-item nav-link">Services</a>
+                        <a href="{{ url('user/trangchu') }}" class="nav-item nav-link active">Tìm việc</a>
+                        <a href="about.html" class="nav-item nav-link">Giới thiệu</a>
+                        <a href="service.html" class="nav-item nav-link">Dịch vụ</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Khác</a>
                             <div class="dropdown-menu m-0">
-                                <a href="feature.html" class="dropdown-item">Features</a>
-                                <a href="pricing.html" class="dropdown-item">Pricing</a>
-                                <a href="blog.html" class="dropdown-item">Blog</a>
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                <a href="feature.html" class="dropdown-item">Quản lý tìm việc</a>
+                                <a href="pricing.html" class="dropdown-item">Việc làm đã lưu</a>
+                                <a href="blog.html" class="dropdown-item">Việc làm đã ứng tuyển</a>
+                                <a href="testimonial.html" class="dropdown-item">Việc làm mới xem gần đây</a>
                                 
                             </div>
                         </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+                        <a href="{{ url('user/profile') }}"class="nav-item nav-link">Cá nhân</a>
                     </div>
                     @if(session()->has('user'))
                         <a href="{{ url('authen/logout') }}" class="btn btn-danger rounded-pill py-2 px-4">Đăng xuất</a>
                     @else
-                        <a href="{{ url('authen/login') }}" class="btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-2">Log In</a>
-                        <a href="{{ url('authen/register') }}" class="btn btn-primary rounded-pill text-white py-2 px-4">Sign Up</a>
+                        <a href="{{ url('authen/login') }}" class="btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-2">Đăng nhập</a>
+                        <a href="{{ url('authen/register') }}" class="btn btn-primary rounded-pill text-white py-2 px-4">Đăng ký</a>
                     @endif
                 </div>
             </nav>

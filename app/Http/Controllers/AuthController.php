@@ -72,4 +72,40 @@ class AuthController extends Controller
         Session::forget('user');
         return redirect('authen/login')->with('success', 'Đăng xuất thành công!');
     }
+
+    //update avater
+    public function updateAvatar(Request $request)
+    {
+        // Kiểm tra người dùng đã đăng nhập
+        if (!Session::has('user')) {
+            return redirect('authen/login')->with('error', 'Vui lòng đăng nhập trước!');
+        }
+
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = Session::get('user');
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = time().'_'.$file->getClientOriginalName();
+
+            // Lưu file vào storage/app/public/avatars
+            $path = $file->storeAs('public/avatars', $filename);
+
+            // Cập nhật trường avatar trong DB
+            $userModel = User::find($user->id);
+            $userModel->avatar = 'storage/avatars/'.$filename;
+            $userModel->save();
+
+            // Cập nhật session
+            Session::put('user', $userModel);
+
+            return back()->with('success', 'Cập nhật avatar thành công!');
+        }
+
+        return back()->with('error', 'Không có file ảnh nào được chọn.');
+    }
+    
 }

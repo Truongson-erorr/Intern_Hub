@@ -3,12 +3,46 @@
 
 @section('content')
 <style>
-.search-header {
-    background: #f8f9fa;
-    padding: 40px 0;
+/* ================= Hero Header ================= */
+.hero-header {
+    background: linear-gradient(135deg, #5cb3ff 0%, #fe008c 100%);
+    padding: 60px 0 40px;
+    height: 350x;
     text-align: center;
+    color: #fff;
 }
-.search-header h2 { font-weight: 700; }
+.hero-header h1 { 
+    font-weight: 700; 
+    font-size: 32px; 
+    margin-bottom: 15px; 
+    margin-top: 40px;
+}
+.hero-header p { 
+    font-size: 14px; 
+    margin-bottom: 25px; 
+}
+
+.hero-header .form-control {
+    width: 400px; 
+    height: 50px;
+    font-size: 14px;
+}
+
+.hero-header .btn-search {
+    background: #fff; 
+    color: #fe008c; 
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 10px 25px;
+    border: none;
+    transition: all 0.3s ease;
+}
+.hero-header .btn-search:hover {
+    background: #f8f8f8;
+    transform: scale(1.05);
+}
+
+/* ================= Job Cards ================= */
 .job-card {
     background: #fff;
     border-radius: 20px;
@@ -44,13 +78,31 @@
     color: #3d3d3d;
     transform: scale(1.05);
 }
-/* spacer để tạo khoảng cách */
-.section-spacer {
-    height: 60px; /* chỉnh tùy ý */
+
+.section-spacer { height: 60px; }
+
+.search-header {
+    background: #f8f9fa;
+    padding: 40px 0;
+    text-align: center;
 }
+.search-header h2 { font-weight: 700; }
 </style>
-<!-- ================= Spacer ================= -->
-<div class="section-spacer"></div>
+
+<!-- ================= Hero Header ================= -->
+<div class="hero-header">
+    <div class="container">
+        <h1 class="mb-4">Tìm việc IT mơ ước của bạn ngay hôm nay</h1>
+        <p class="mb-5">Kết nối với hàng ngàn công ty công nghệ hàng đầu tại Việt Nam</p>
+        <div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
+            <form method="GET" action="{{ url('user/timviec') }}" class="d-flex">
+                <input type="text" name="keyword" class="form-control rounded-pill me-2 px-4"
+                    placeholder="Nhập công việc...">
+                <button type="submit" class="btn-search fw-bold">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- ================= Search Header ================= -->
 <div class="search-header">
