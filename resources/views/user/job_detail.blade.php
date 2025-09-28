@@ -88,9 +88,51 @@
         <p>{{ $job->degree_requirements }}</p>
         <hr>
 
+        {{-- Nút ứng tuyển --}}
         <div class="job-actions text-center mb-4">
-            <a href="#" class="apply-btn">Ứng tuyển ngay</a>
+            <a href="#" class="apply-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Ứng tuyển ngay</a>
         </div>
+    </div>
+
+    {{-- Modal Ứng tuyển --}}
+    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="applyModalLabel">Ứng tuyển cho công việc: {{ $job->title }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form action="{{ url('jobs/apply/'.$job->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="cvFile" class="form-label">Tải CV của bạn (PDF)</label>
+                    <input type="file" class="form-control" name="cv" id="cvFile" accept="application/pdf" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="introText" class="form-label">Giới thiệu về bạn</label>
+                    <textarea class="form-control" name="introduction" id="introText" rows="4" placeholder="Hãy viết vài dòng giới thiệu về bản thân..." required></textarea>
+                </div>
+
+                {{-- Lưu ý --}}
+                <div class="alert alert-warning mt-3" style="font-size: 14px; line-height: 1.6;">
+                <strong>Lưu ý:</strong><br>
+                InternHub khuyên tất cả các bạn hãy luôn cẩn trọng trong quá trình tìm việc và chủ động nghiên cứu về thông tin công ty, vị trí việc làm trước khi ứng tuyển.<br>
+                Ứng viên cần có trách nhiệm với hành vi ứng tuyển của mình. Nếu bạn gặp phải tin tuyển dụng hoặc nhận được liên lạc đáng ngờ của nhà tuyển dụng, hãy báo cáo ngay cho TopCV qua email 
+                <a href="mailto:internhub@topcv.vn">hotro@internhub.vn</a> để được hỗ trợ kịp thời.<br>
+                <a href="#" target="_blank">Tìm hiểu thêm kinh nghiệm phòng tránh lừa đảo tại đây</a>.
+                </div>
+            </div>
+
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary">Gửi đơn ứng tuyển</button>
+            </div>
+        </form>
+        </div>
+    </div>
     </div>
 
     {{-- Sidebar --}}
