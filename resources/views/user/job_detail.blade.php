@@ -4,6 +4,129 @@
 @section('content')
 
 {{-- Hero Header giống trang chủ --}}
+
+
+<style>
+.hero-header {
+    background: linear-gradient(135deg, #5cb3ffff 0%, #fe008cff 100%);
+    padding: 80px 0;
+    color: #fff;
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+.hero-header h1 {
+    font-weight: 700;
+}
+.hero-header p {
+    font-size: 18px;
+}
+
+.job-container {
+    gap: 30px;
+}
+
+.job-detail {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.job-detail:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.job-detail h2 {
+    font-weight: 1000;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.job-detail .badge {
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-size: 14px;
+    margin-right: 8px;
+    transition: all 0.2s ease;
+}
+.job-detail .badge:hover {
+    transform: scale(1.05);
+}
+.badge-salary { background: #f0f9ff; color: #007bff; font-weight: 500; }
+.badge-exp { background: #fff8e6; color: #ff9800; font-weight: 500; }
+
+.apply-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ff36deff, #0042c5ff);
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.apply-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 86, 179, 0.3);
+}
+
+.job-sidebar {
+    flex: 1;
+    max-width: 400px;
+}
+.sidebar-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+.sidebar-box:hover {
+    transform: translateY(-5px);
+}
+.sidebar-box h4 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #444;
+}
+.sidebar-box ul {
+    padding-left: 18px;
+    margin: 0;
+}
+.sidebar-box li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.related-job h5 a {
+    text-decoration: none;
+    color: #007bff;
+}
+.related-job h5 a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 992px) {
+    .job-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .job-sidebar {
+        max-width: 100%;
+    }
+    .job-detail {
+        max-width: 100%;
+    }
+    .hero-header input {
+        width: 100% !important;
+    }
+}
+</style>
+
 <div class="hero-header mb-5">
     <div class="container text-center">
         <h1 class="mb-4">Tìm việc IT mơ ước của bạn ngay hôm nay</h1>
@@ -181,127 +304,5 @@
     </div>
 
 </div>
-
-{{-- CSS --}}
-<style>
-.hero-header {
-    background: linear-gradient(135deg, #5cb3ffff 0%, #fe008cff 100%);
-    padding: 80px 0;
-    color: #fff;
-    border-radius: 20px;
-    margin-bottom: 40px;
-}
-.hero-header h1 {
-    font-weight: 700;
-}
-.hero-header p {
-    font-size: 18px;
-}
-
-.job-container {
-    gap: 30px;
-}
-
-.job-detail {
-    background: #fff;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.job-detail:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-}
-
-.job-detail h2 {
-    font-weight: 1000;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.job-detail .badge {
-    border-radius: 12px;
-    padding: 6px 14px;
-    font-size: 14px;
-    margin-right: 8px;
-    transition: all 0.2s ease;
-}
-.job-detail .badge:hover {
-    transform: scale(1.05);
-}
-.badge-salary { background: #f0f9ff; color: #007bff; font-weight: 500; }
-.badge-exp { background: #fff8e6; color: #ff9800; font-weight: 500; }
-
-.apply-btn {
-    display: inline-block;
-    padding: 12px 20px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #ff36deff, #0042c5ff);
-    color: #fff;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-.apply-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0, 86, 179, 0.3);
-}
-
-.job-sidebar {
-    flex: 1;
-    max-width: 400px;
-}
-.sidebar-box {
-    background: #fff;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease;
-}
-.sidebar-box:hover {
-    transform: translateY(-5px);
-}
-.sidebar-box h4 {
-    font-size: 18px;
-    margin-bottom: 12px;
-    color: #444;
-}
-.sidebar-box ul {
-    padding-left: 18px;
-    margin: 0;
-}
-.sidebar-box li {
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: #555;
-}
-
-.related-job h5 a {
-    text-decoration: none;
-    color: #007bff;
-}
-.related-job h5 a:hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 992px) {
-    .job-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    .job-sidebar {
-        max-width: 100%;
-    }
-    .job-detail {
-        max-width: 100%;
-    }
-    .hero-header input {
-        width: 100% !important;
-    }
-}
-</style>
 
 @endsection
