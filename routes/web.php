@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobApplicationController;
 
 // Routes đăng nhập, đăng xuất
-Route::get('authen/login', [AuthController::class, 'showLoginForm']);
+Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('authen/login', [AuthController::class, 'login']);
 Route::get('authen/logout', [AuthController::class, 'logout']);
 
@@ -28,3 +29,5 @@ Route::get('user/profile', function () {
     return view('user.profile');
 })->name('user.profile');
 
+// xử lý apply theo id từng job
+Route::post('/jobs/apply/{id}', [JobApplicationController::class, 'store'])->name('jobs.apply');

@@ -127,6 +127,26 @@
 }
 </style>
 
+{{-- Modal thông báo ứng tuyển thành công --}}
+@if(session('success'))
+<div class="modal fade" id="applySuccessModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center p-4">
+            <div class="modal-header border-0 justify-content-center">
+                <h5 class="modal-title">Ứng tuyển thành công!</h5>
+            </div>
+            <div class="modal-body">
+                <p>Bạn đã ứng tuyển cho công việc <strong>{{ $job->title }}</strong> thành công.</p>
+            </div>
+            <div class="modal-footer justify-content-center border-0">
+                <a href="{{ url('user/trangchu') }}" class="btn btn-primary">Trở về trang chủ</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 <div class="hero-header mb-5">
     <div class="container text-center">
         <h1 class="mb-4">Tìm việc IT mơ ước của bạn ngay hôm nay</h1>
@@ -304,5 +324,15 @@
     </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var successModal = document.getElementById('applySuccessModal');
+    if (successModal) {
+        var modal = new bootstrap.Modal(successModal);
+        modal.show();
+    }
+});
+</script>
 
 @endsection

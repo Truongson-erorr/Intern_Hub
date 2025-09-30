@@ -3,48 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Hiển thị form login
+    /**
+     * Hiển thị form đăng nhập
+     */
     public function showLoginForm()
     {
         return view('authen.login');
     }
 
-    // Xử lý đăng nhập
+    /**
+     * Xử lý đăng nhập
+     */
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        // Tìm user theo email
-        $user = User::where('email', $email)->first();
-
-        // So sánh trực tiếp với mật khẩu plain text
-        if ($user && $user->password === $password) {
-            Session::put('user', $user);
-            return redirect('user/trangchu')->with('success', 'Đăng nhập thành công!');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate(); // bảo mật session
+            return redirect()->intended('user/trangchu')
+                             ->with('success', 'Đăng nhập thành công!');
         }
 
-        return back()->withErrors(['email' => 'Email hoặc mật khẩu không đúng'])
-                     ->withInput($request->only('email'));
+        return back()->withErrors([
+            'email' => 'Email hoặc mật khẩu không đúng',
+        ])->withInput($request->only('email'));
     }
 
-    // Hiển thị form đăng ký
+    /**
+     * Hiển thị form đăng ký
+     */
     public function showRegisterForm()
     {
         return view('authen.register');
     }
 
-    // Xử lý đăng ký
+    /**
+     * Xử lý đăng ký
+     */
     public function register(Request $request)
     {
         $request->validate([
@@ -53,31 +57,35 @@ class AuthController extends Controller
             'password' => 'required|confirmed|min:6',
         ]);
 
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = $request->input('password'); // Lưu plain text
-        $user->role = 'user'; // mặc định là user
-        $user->save();
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password), // hash mật khẩu
+            'role' => 'user', // mặc định role
+        ]);
 
-        // Tự động đăng nhập sau khi đăng ký
-        Session::put('user', $user);
-
-        return redirect('authen/login')->with('success', 'Đăng ký thành công!');
+        Auth::login($user); // đăng nhập ngay sau khi đăng ký
+        return redirect('user/trangchu')->with('success', 'Đăng ký thành công!');
     }
 
-    // Đăng xuất
-    public function logout()
+    /**
+     * Đăng xuất
+     */
+    public function logout(Request $request)
     {
-        Session::forget('user');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect('authen/login')->with('success', 'Đăng xuất thành công!');
     }
 
-    //update avater
+    /**
+     * Cập nhật avatar
+     */
     public function updateAvatar(Request $request)
     {
-        // Kiểm tra người dùng đã đăng nhập
-        if (!Session::has('user')) {
+        if (!Auth::check()) {
             return redirect('authen/login')->with('error', 'Vui lòng đăng nhập trước!');
         }
 
@@ -85,27 +93,19 @@ class AuthController extends Controller
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $user = Session::get('user');
+        $user = Auth::user();
 
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $filename = time().'_'.$file->getClientOriginalName();
-
-            // Lưu file vào storage/app/public/avatars
             $path = $file->storeAs('public/avatars', $filename);
 
-            // Cập nhật trường avatar trong DB
-            $userModel = User::find($user->id);
-            $userModel->avatar = 'storage/avatars/'.$filename;
-            $userModel->save();
-
-            // Cập nhật session
-            Session::put('user', $userModel);
+            $user->avatar = 'storage/avatars/'.$filename;
+            $user->save();
 
             return back()->with('success', 'Cập nhật avatar thành công!');
         }
 
         return back()->with('error', 'Không có file ảnh nào được chọn.');
     }
-    
 }

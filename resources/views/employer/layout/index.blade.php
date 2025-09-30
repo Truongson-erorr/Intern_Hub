@@ -68,7 +68,7 @@
                         </div>
                         <a href="{{ url('user/profile') }}"class="nav-item nav-link">Cá nhân</a>
                     </div>
-                    @if(session()->has('user'))
+                    @if(Auth::check())
                         <a href="{{ url('authen/logout') }}" class="btn btn-danger rounded-pill py-2 px-4">Đăng xuất</a>
                     @else
                         <a href="{{ url('authen/login') }}" class="btn btn-light border border-primary rounded-pill text-primary py-2 px-4 me-2">Đăng nhập</a>
