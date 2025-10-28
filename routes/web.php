@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\UserController;
 
 // Routes đăng nhập, đăng xuất
 Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -31,3 +32,8 @@ Route::get('user/profile', function () {
 
 // xử lý apply theo id từng job
 Route::post('/jobs/apply/{id}', [JobApplicationController::class, 'store'])->name('jobs.apply');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/user/profile/edit', [UserController::class, 'edit'])->name('user.profile.edit');
+    Route::post('/user/profile/update', [UserController::class, 'update'])->name('user.profile.update');
+});

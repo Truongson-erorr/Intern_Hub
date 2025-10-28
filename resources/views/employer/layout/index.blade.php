@@ -63,10 +63,9 @@
                                 <a href="pricing.html" class="dropdown-item">Việc làm đã lưu</a>
                                 <a href="blog.html" class="dropdown-item">Việc làm đã ứng tuyển</a>
                                 <a href="testimonial.html" class="dropdown-item">Việc làm mới xem gần đây</a>
-                                
                             </div>
                         </div>
-                        <a href="{{ url('user/profile') }}"class="nav-item nav-link">Cá nhân</a>
+                        <a href="{{ url('user/profile') }}"class="nav-item nav-link">Thông tin cá nhân</a>
                     </div>
                     @if(Auth::check())
                         <a href="{{ url('authen/logout') }}" class="btn btn-danger rounded-pill py-2 px-4">Đăng xuất</a>

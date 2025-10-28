@@ -99,7 +99,6 @@
     transform: scale(1.05);
     
 }
-
 </style>
 
 <!-- ================= Hero Header ================= -->
@@ -118,6 +117,7 @@
                      Tìm kiếm
                 </button>
             </form>
+            
         </div>
     </div>
 </div>

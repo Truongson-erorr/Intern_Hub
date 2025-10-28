@@ -1,7 +1,6 @@
 @extends('employer.layout.index')
 @section('title', 'Thông tin cá nhân')
 
-
 <style>
 .card {
     background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
@@ -84,11 +83,14 @@
 </style>
 
 @section('content')
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
 <div class="container d-flex justify-content-center align-items-start" style="min-height: 80vh; padding-top: 100px;">
-    @if(session()->has('user'))
+    @if(Auth::check())
         @php
-            $userId = session('user')->id;
-            $user = \App\Models\User::find($userId); 
+            $user = Auth::user();
         @endphp
 
         <div class="card shadow-lg p-4" style="max-width: 700px; border-radius: 20px; width: 100%; border: none;">
@@ -97,7 +99,7 @@
             <div class="text-center mb-4 position-relative">
                 <div class="avatar-container mb-3">
                     <img id="avatarPreview"
-                        src="{{ $user->avatar ? $user->avatar : 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=4A6CF7&color=fff&size=150' }}" 
+                        src="{{ $user->avatar ? asset($user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=4A6CF7&color=fff&size=150' }}" 
                         class="rounded-circle border border-4 border-white shadow" 
                         alt="Avatar" 
                         style="width: 120px; height: 120px;">
@@ -120,10 +122,7 @@
                 </h5>
                 
                 <div class="info-grid">
-                    <div class="info-item">
-                        <div class="info-label"><i class="fas fa-id-badge me-2 text-primary"></i>ID:</div>
-                        <div class="info-value">{{ $user->id }}</div>
-                    </div>
+                    
                     <div class="info-item">
                         <div class="info-label"><i class="fas fa-envelope me-2 text-primary"></i>Email:</div>
                         <div class="info-value">{{ $user->email }}</div>
@@ -146,12 +145,9 @@
             {{-- Nút hành động --}}
             <div class="action-buttons mt-4 pt-3 border-top">
                 <div class="d-flex justify-content-between">
-                    <a href="{{ url('authen/logout') }}" class="btn btn-danger rounded-pill py-2 px-4 d-flex align-items-center">
-                        <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
-                    </a>
-                    <button class="btn btn-primary rounded-pill py-2 px-4 d-flex align-items-center">
+                    <a href="{{ route('user.profile.edit') }}" class="btn btn-primary rounded-pill py-2 px-4 d-flex align-items-center">
                         <i class="fas fa-edit me-2"></i> Chỉnh sửa
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -160,25 +156,28 @@
             <div class="card shadow p-4" style="border-radius: 20px;">
                 <h4 class="mb-3">👋 Chào bạn, Bạn chưa đăng nhập</h4>
                 <p class="text-muted mb-4">Vui lòng đăng nhập để xem và chỉnh sửa thông tin cá nhân</p>
-                
             </div>
         </div>
     @endif
 </div>
-<hr>
-<script>
-// Preview ảnh ngay khi chọn file
-document.getElementById('avatarInput').addEventListener('change', function(e){
-    const file = e.target.files[0];
-    if(file){
-        const reader = new FileReader();
-        reader.onload = function(e){
-            document.getElementById('avatarPreview').src = e.target.result;
-        }
-        reader.readAsDataURL(file);
 
-        // Tự động submit form khi chọn xong
-        document.getElementById('avatarForm').submit();
+<hr>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('avatarInput');
+    if (input) {
+        input.addEventListener('change', function(e){
+            const file = e.target.files[0];
+            if(file){
+                const reader = new FileReader();
+                reader.onload = function(e){
+                    document.getElementById('avatarPreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+                document.getElementById('avatarForm').submit();
+            }
+        });
     }
 });
 </script>
