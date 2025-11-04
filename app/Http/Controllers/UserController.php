@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\JobApplication;
 
 class UserController extends Controller
 {
@@ -49,4 +50,14 @@ class UserController extends Controller
 
         return redirect()->route('user.profile.edit')->with('success', 'Cập nhật thông tin thành công!');
     }
+
+    public function myApplications()
+{
+    $applications = JobApplication::where('user_id', auth()->id())
+        ->with('job')
+        ->latest()
+        ->get();
+
+    return view('user.my_applications', compact('applications'));
+}
 }

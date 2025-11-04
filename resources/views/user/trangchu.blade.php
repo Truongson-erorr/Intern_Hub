@@ -165,10 +165,16 @@
                 <div class="job-card">
                     <h5>{{ $job->title }}</h5>
                     <p class="location">📍 {{ $job->location }}</p>
+
                     <p>
                         <span class="job-badge salary">Mức lương: {{ $job->salary }}</span>
                         <span class="job-badge experience">Kinh nghiệm: {{ $job->experience }} năm</span>
                     </p>
+
+                    <p class="job-desc text-muted" style="font-size: 15px;">
+                        {{ Str::limit($job->description, 120, '...') }}
+                    </p>
+
                     <div class="text-end mt-3">
                         <a href="{{ url('jobs/'.$job->id) }}" class="btn-detail">Xem chi tiết</a>
                     </div>
@@ -177,6 +183,7 @@
         @empty
             <p class="text-center">Chưa có công việc nào.</p>
         @endforelse
+
     </div>
 </div>
 
