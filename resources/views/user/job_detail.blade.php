@@ -127,26 +127,6 @@
 }
 </style>
 
-{{-- Modal thông báo ứng tuyển thành công --}}
-@if(session('success'))
-<div class="modal fade" id="applySuccessModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content text-center p-4">
-            <div class="modal-header border-0 justify-content-center">
-                <h5 class="modal-title">Ứng tuyển thành công!</h5>
-            </div>
-            <div class="modal-body">
-                <p>Bạn đã ứng tuyển cho công việc <strong>{{ $job->title }}</strong> thành công.</p>
-            </div>
-            <div class="modal-footer justify-content-center border-0">
-                <a href="{{ url('user/trangchu') }}" class="btn btn-primary">Trở về trang chủ</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
-
 <div class="hero-header mb-5">
     <div class="container text-center">
         <h1 class="mb-4">Tìm việc IT mơ ước của bạn ngay hôm nay</h1>
@@ -159,7 +139,7 @@
                 <button type="submit" 
                         class="btn btn-light rounded-pill px-4 fw-bold"
                         style="background: linear-gradient(135deg, #5cb3ff 0%, #fe008c 100%); color: #fff;">
-                     Tìm kiếm
+                    Tìm kiếm
                 </button>
             </form>
         </div>
@@ -235,6 +215,14 @@
         <div class="job-actions text-center mb-4">
             <a href="#" class="apply-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Ứng tuyển ngay</a>
         </div>
+        
+        <form action="{{ route('jobs.save', $job->id) }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-outline-primary">
+            💾 Lưu công việc
+        </button>
+        </form>
+
     </div>
 
     {{-- Modal Ứng tuyển --}}
@@ -265,7 +253,7 @@
                 InternHub khuyên tất cả các bạn hãy luôn cẩn trọng trong quá trình tìm việc và chủ động nghiên cứu về thông tin công ty, vị trí việc làm trước khi ứng tuyển.<br>
                 Ứng viên cần có trách nhiệm với hành vi ứng tuyển của mình. Nếu bạn gặp phải tin tuyển dụng hoặc nhận được liên lạc đáng ngờ của nhà tuyển dụng, hãy báo cáo ngay cho TopCV qua email 
                 <a href="mailto:internhub@topcv.vn">hotro@internhub.vn</a> để được hỗ trợ kịp thời.<br>
-                <a href="#" target="_blank">Tìm hiểu thêm kinh nghiệm phòng tránh lừa đảo tại đây</a>.
+                <a href="#" target="_blank">Tìm hiểu thêm kinh nghiệm phòng tránh lừa đảo tại đây</a>.
                 </div>
             </div>
 
@@ -325,13 +313,29 @@
 
 </div>
 
+{{-- Modal Thông báo Thành công --}}
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-body">
+        <h5 id="successMessage" class="mb-3"></h5>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    var successModal = document.getElementById('applySuccessModal');
-    if (successModal) {
-        var modal = new bootstrap.Modal(successModal);
-        modal.show();
-    }
+    var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+    @if(session('save_success'))
+        document.getElementById('successMessage').innerText = "{{ session('save_success') }}";
+        successModal.show();
+    @elseif(session('apply_success'))
+        document.getElementById('successMessage').innerText = "{{ session('apply_success') }}";
+        successModal.show();
+    @endif
 });
 </script>
 

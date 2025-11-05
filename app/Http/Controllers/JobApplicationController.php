@@ -46,6 +46,6 @@ class JobApplicationController extends Controller
             'introduction' => $request->introduction,
         ]);
 
-        return redirect()->back()->with('success', 'Ứng tuyển thành công!');
+        return redirect()->back()->with('apply_success', 'Ứng tuyển thành công!');
     }
 }

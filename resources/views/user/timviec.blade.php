@@ -117,21 +117,21 @@
     <div class="row">
         @forelse($jobs as $job)
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="job-card">
-                    <h5>{{ $job->title }}</h5>
-                    <p class="location">📍 {{ $job->location }}</p>
-                    <p>
-                        <span class="job-badge salary">Mức lương: {{ $job->salary }}</span>
-                        <span class="job-badge experience">Kinh nghiệm: {{ $job->experience }} năm</span>
-                    </p>
-                    <div class="text-end mt-3">
-                        <a href="{{ url('jobs/'.$job->id) }}" class="btn-detail">Xem chi tiết</a>
+                <a href="{{ url('jobs/'.$job->id) }}" class="text-decoration-none">
+                    <div class="job-card">
+                        <h5>{{ $job->title }}</h5>
+                        <p class="location">📍 {{ $job->location }}</p>
+                        <p>
+                            <span class="job-badge salary">Mức lương: {{ $job->salary }}</span>
+                            <span class="job-badge experience">Kinh nghiệm: {{ $job->experience }} năm</span>
+                        </p>
                     </div>
-                </div>
+                </a>
             </div>
         @empty
             <p class="text-center">Không tìm thấy công việc nào phù hợp.</p>
         @endforelse
     </div>       
 </div>
+
 @endsection

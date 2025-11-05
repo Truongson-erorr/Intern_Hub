@@ -3,26 +3,6 @@
 
 @section('content')
 <style>
-/* ====================== Global Layout ====================== */
-body {
-    background-color: #f8f9fb;
-}
-
-/* ====================== Header ====================== */
-.page-header {
-    text-align: center;
-    padding-top: 100px;
-    margin-bottom: 40px;
-}
-.page-header h2 {
-    font-weight: 800;
-    color: #222;
-}
-.page-header p {
-    color: #777;
-    font-size: 15px;
-}
-
 /* ====================== Application Card ====================== */
 .application-card {
     display: flex;
@@ -32,7 +12,7 @@ body {
     padding: 25px;
     margin-bottom: 25px;
     width: 100%;
-    max-width: 900px;
+    max-width: 950px; /* giống max-width bên đã lưu */
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     transition: all 0.3s ease;
     position: relative;
@@ -100,8 +80,8 @@ body {
 }
 </style>
 
-<div class="container d-flex flex-column justify-content-start align-items-center" style="min-height: 90vh;">
-    <div class="page-header">
+<div class="container py-5 mt-5 d-flex flex-column align-items-center" style="min-height: 90vh;">
+    <div class="page-header text-center mb-4">
         <h2>Đơn ứng tuyển của tôi</h2>
         <p>Theo dõi các công việc bạn đã gửi hồ sơ và trạng thái ứng tuyển của mình.</p>
     </div>

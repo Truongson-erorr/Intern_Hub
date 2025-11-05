@@ -57,3 +57,13 @@ Route::post('/jobs/apply/{id}', [JobApplicationController::class, 'store'])->nam
 Route::get('/user/my-applications', [UserController::class, 'myApplications'])
     ->middleware('auth') // chỉ cho phép user đã đăng nhập xem
     ->name('user.my_applications');
+
+Route::middleware('auth')->group(function () {
+    // Lưu công việc vào danh sách yêu thích (Saved Jobs)
+    Route::post('/jobs/{id}/save', [JobController::class, 'saveJob'])->name('jobs.save');
+    // Bỏ lưu công việc khỏi danh sách yêu thích
+    Route::delete('/jobs/{id}/unsave', [JobController::class, 'unsaveJob'])->name('jobs.unsave');
+    // Hiển thị danh sách các công việc đã lưu của user
+    Route::get('/saved-jobs', [JobController::class, 'savedJobs'])->name('user.saved');
+
+});
