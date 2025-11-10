@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 05, 2025 lúc 08:30 AM
+-- Thời gian đã tạo: Th10 10, 2025 lúc 07:25 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -189,6 +189,8 @@ CREATE TABLE `users` (
   `phone` varchar(20) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `resume` varchar(255) DEFAULT NULL,
+  `desired_position` varchar(100) DEFAULT NULL,
+  `industry` varchar(100) DEFAULT NULL,
   `role` enum('user','employer','admin') DEFAULT 'user',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -198,9 +200,9 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `avatar`, `phone`, `address`, `resume`, `role`, `created_at`, `updated_at`) VALUES
-(4, 'Diệp Phương Anh', 'dpa@gmail.com', '$2y$12$RqZCc9bUjWBd.TdJwgx1w.3t04SDoD.eU6GO/EPcBMe/RJECj.I42', NULL, NULL, NULL, NULL, 'user', '2025-09-23 19:25:27', '2025-09-23 19:25:27'),
-(6, 'Cao niên Trường Sơn', 'son@gmail.com', '$2y$12$ydSc9GQax/IlUUDhJhgT4eXNu9yaNqlGCRxXvOoBdzBuhm6tN6mUG', 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzxAeW8J9uNlYPOp6_sspakIiVN14YMcPRxbo9c65TS_jFBtE5rkuCsqpMQUSvbsc4oKWb8NlFeF4WC6Q6kAelrzbXV9PrNE_C3Em4vi1X05cgVTi2uQ0YN7EFmLMvaMOyP9kXv_KQ2EY/s0/image.png', '0396197501', '97/25/10 tổ 21 khu 3', NULL, 'user', '2025-10-28 08:09:23', '2025-10-28 15:27:26');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `avatar`, `phone`, `address`, `resume`, `desired_position`, `industry`, `role`, `created_at`, `updated_at`) VALUES
+(4, 'Diệp Phương Anh', 'dpa@gmail.com', '$2y$12$RqZCc9bUjWBd.TdJwgx1w.3t04SDoD.eU6GO/EPcBMe/RJECj.I42', NULL, NULL, NULL, NULL, NULL, NULL, 'user', '2025-09-23 19:25:27', '2025-09-23 19:25:27'),
+(6, 'Cao niên Trường Sơn', 'son@gmail.com', '$2y$12$ydSc9GQax/IlUUDhJhgT4eXNu9yaNqlGCRxXvOoBdzBuhm6tN6mUG', 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzxAeW8J9uNlYPOp6_sspakIiVN14YMcPRxbo9c65TS_jFBtE5rkuCsqpMQUSvbsc4oKWb8NlFeF4WC6Q6kAelrzbXV9PrNE_C3Em4vi1X05cgVTi2uQ0YN7EFmLMvaMOyP9kXv_KQ2EY/s0/image.png', '0396197501', '97/25/10 tổ 21 khu 3', NULL, NULL, 'Database', 'user', '2025-10-28 08:09:23', '2025-11-09 08:18:17');
 
 --
 -- Chỉ mục cho các bảng đã đổ

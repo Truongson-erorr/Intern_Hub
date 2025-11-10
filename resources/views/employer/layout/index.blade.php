@@ -59,10 +59,9 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Khác</a>
                             <div class="dropdown-menu shadow-sm border-0 rounded-3 p-2" style="min-width: 230px;">
-                                <a href="feature.html" class="dropdown-item py-2 px-3">Quản lý tìm việc</a>
                                 <a href="{{ route('user.saved') }}" class="dropdown-item py-2 px-3">Việc làm đã lưu</a>
                                 <a href="{{ route('user.my_applications') }}" class="dropdown-item py-2 px-3">Đơn đã ứng tuyển</a>
-                                <a href="testimonial.html" class="dropdown-item py-2 px-3">Việc làm mới xem gần đây</a>
+                                <a href="{{ route('user.recommend_job') }}" class="dropdown-item py-2 px-3">Việc làm phù hợp với bạn</a>
                             </div>
                         </div>
                         <a href="{{ url('user/profile') }}"class="nav-item nav-link">Thông tin cá nhân</a>

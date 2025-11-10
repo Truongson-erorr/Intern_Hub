@@ -60,12 +60,12 @@
 }
 .info-label {
     font-weight: 600;
-    min-width: 140px;
-    color: #4a5568;
+    min-width: 190px;
+    color: #484848ff;
 }
 .info-value {
-    color: #2d3748;
-    font-weight: 500;
+    color: #272727ff;
+    
 }
 
 .status-indicator {
@@ -114,7 +114,6 @@
                 </div>
             </div>
 
-
             {{-- Thông tin chi tiết --}}
             <div class="info-section">
                 <h5 class="section-title mb-3 fw-semibold text-primary">
@@ -138,6 +137,10 @@
                     <div class="info-item">
                         <div class="info-label"><i class="fas fa-file-alt me-2 text-primary"></i>Hồ sơ:</div>
                         <div class="info-value">{{ $user->resume ?? 'Chưa cập nhật' }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-industry me-2 text-primary"></i>Ngành nghề chính:</div>
+                        <div class="info-value">{{ $user->industry ?? 'Chưa cập nhật' }}</div>
                     </div>
                 </div>
             </div>

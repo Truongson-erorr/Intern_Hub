@@ -33,7 +33,7 @@
 /* ====================== Info Section ====================== */
 .application-info h5 {
     font-weight: 700;
-    color: #333;
+    color: #000000ff;
     margin-bottom: 10px;
 }
 .application-info p {
@@ -82,10 +82,10 @@
 
 <div class="container py-5 mt-5 d-flex flex-column align-items-center" style="min-height: 90vh;">
     <div class="page-header text-center mb-4">
-        <h2>Đơn ứng tuyển của tôi</h2>
+        <h2 style="font-weight: bold">Đơn ứng tuyển của tôi</h2>
         <p>Theo dõi các công việc bạn đã gửi hồ sơ và trạng thái ứng tuyển của mình.</p>
     </div>
-
+    
     @forelse($applications as $app)
         <div class="application-card">
             <img src="{{ asset('images/job-placeholder.png') }}" 

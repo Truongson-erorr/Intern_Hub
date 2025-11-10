@@ -97,7 +97,7 @@ body {
         <h3>Công việc đã lưu</h3>
         <p>Danh sách các công việc bạn đã lưu để tham khảo hoặc ứng tuyển sau.</p>
     </div>
-
+    
     @if($savedJobs->isEmpty())
         <div class="empty-state">
             <i class="bi bi-bookmark"></i>

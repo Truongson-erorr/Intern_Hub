@@ -65,5 +65,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/jobs/{id}/unsave', [JobController::class, 'unsaveJob'])->name('jobs.unsave');
     // Hiển thị danh sách các công việc đã lưu của user
     Route::get('/saved-jobs', [JobController::class, 'savedJobs'])->name('user.saved');
-
 });
+
+Route::middleware('auth')->group(function () {
+    // Gợi ý việc làm phù hợp
+    Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])->name('user.recommend_job');
+});
+

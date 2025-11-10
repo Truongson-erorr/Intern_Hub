@@ -51,6 +51,13 @@
                 <label class="form-label fw-semibold">Hồ sơ</label>
                 <textarea name="resume" class="form-control" rows="3">{{ old('resume', $user->resume) }}</textarea>
             </div>
+        
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Ngành nghề chính</label>
+                <input type="text" name="industry" class="form-control"
+                    value="{{ old('industry', $user->industry) }}"
+                    placeholder="VD: Công nghệ thông tin, Kỹ thuật phần mềm">
+            </div>
 
             <div class="d-flex justify-content-between">
                 <a href="{{ url('user/trangchu') }}" class="btn btn-outline-secondary px-4">
