@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 10, 2025 lúc 07:25 AM
+-- Thời gian đã tạo: Th10 17, 2025 lúc 03:58 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -139,7 +139,8 @@ CREATE TABLE `job_applications` (
 --
 
 INSERT INTO `job_applications` (`id`, `job_id`, `user_id`, `cv_path`, `introduction`, `created_at`, `updated_at`) VALUES
-(17, 1, 6, 'cvs/MSLqraHHVMANJaulaLmAxJXGiPncts41XMnaQCuy.pdf', 'hi', '2025-11-05 00:26:12', '2025-11-05 00:26:12');
+(17, 1, 6, 'cvs/MSLqraHHVMANJaulaLmAxJXGiPncts41XMnaQCuy.pdf', 'hi', '2025-11-05 00:26:12', '2025-11-05 00:26:12'),
+(18, 1, 6, 'cvs/1ayiWJxYLuMeFWVHC3iMiBw7TEtotGxWIllvgM4X.pdf', 'hi', '2025-11-14 20:11:35', '2025-11-14 20:11:35');
 
 -- --------------------------------------------------------
 
@@ -201,8 +202,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `avatar`, `phone`, `address`, `resume`, `desired_position`, `industry`, `role`, `created_at`, `updated_at`) VALUES
-(4, 'Diệp Phương Anh', 'dpa@gmail.com', '$2y$12$RqZCc9bUjWBd.TdJwgx1w.3t04SDoD.eU6GO/EPcBMe/RJECj.I42', NULL, NULL, NULL, NULL, NULL, NULL, 'user', '2025-09-23 19:25:27', '2025-09-23 19:25:27'),
-(6, 'Cao niên Trường Sơn', 'son@gmail.com', '$2y$12$ydSc9GQax/IlUUDhJhgT4eXNu9yaNqlGCRxXvOoBdzBuhm6tN6mUG', 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzxAeW8J9uNlYPOp6_sspakIiVN14YMcPRxbo9c65TS_jFBtE5rkuCsqpMQUSvbsc4oKWb8NlFeF4WC6Q6kAelrzbXV9PrNE_C3Em4vi1X05cgVTi2uQ0YN7EFmLMvaMOyP9kXv_KQ2EY/s0/image.png', '0396197501', '97/25/10 tổ 21 khu 3', NULL, NULL, 'Database', 'user', '2025-10-28 08:09:23', '2025-11-09 08:18:17');
+(4, 'Mai Thanh An', 'dpa@gmail.com', '$2y$12$RqZCc9bUjWBd.TdJwgx1w.3t04SDoD.eU6GO/EPcBMe/RJECj.I42', NULL, NULL, NULL, NULL, NULL, NULL, 'employer', '2025-09-23 19:25:27', '2025-11-17 14:26:00'),
+(6, 'Cao niên Trường Sơn', 'son@gmail.com', '$2y$12$ydSc9GQax/IlUUDhJhgT4eXNu9yaNqlGCRxXvOoBdzBuhm6tN6mUG', 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzxAeW8J9uNlYPOp6_sspakIiVN14YMcPRxbo9c65TS_jFBtE5rkuCsqpMQUSvbsc4oKWb8NlFeF4WC6Q6kAelrzbXV9PrNE_C3Em4vi1X05cgVTi2uQ0YN7EFmLMvaMOyP9kXv_KQ2EY/s0/image.png', '0396197501', '97/25/10 tổ 21 khu 3', NULL, NULL, 'Database', 'user', '2025-10-28 08:09:23', '2025-11-09 08:18:17'),
+(7, 'Trần Hà Linh', 'admin@gmail.com', '$2y$12$.xTZkuiF5ovZbLuipFdcquPHPlCLpOptETweguOjq5vWaqq7GqcUe', NULL, NULL, NULL, NULL, NULL, NULL, 'admin', '2025-11-17 07:21:22', '2025-11-17 14:26:11'),
+(8, 'CaoNien TruongSon', 'truongsonvipro1@gmail.com', '$2y$12$gFvRzAUfiaNM/CmLp8ejr.OPVxAJSI2sZT.sSyrXCcPA1nq9PrNAi', NULL, NULL, NULL, NULL, NULL, NULL, 'user', '2025-11-17 07:52:59', '2025-11-17 07:52:59');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -284,7 +287,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT cho bảng `job_applications`
 --
 ALTER TABLE `job_applications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `migrations`
@@ -302,7 +305,7 @@ ALTER TABLE `saved_jobs`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
