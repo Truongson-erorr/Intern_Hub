@@ -1,4 +1,4 @@
-@extends('employer.layout.index')
+@extends('user.layout.index')
 
 <style>
 .recommend-jobs-container {

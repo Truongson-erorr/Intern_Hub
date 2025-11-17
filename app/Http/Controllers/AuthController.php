@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Models\User;
+use Laravel\Socialite\Facades\Socialite;
 
-class AuthController extends User
+class AuthController extends Controller
 {
     /**
      * Hiển thị form đăng nhập
@@ -28,14 +30,69 @@ class AuthController extends User
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // bảo mật session
-            return redirect()->intended('user/trangchu')
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            // Redirect theo role
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard')
+                                 ->with('success', 'Xin chào Admin!');
+            }
+
+            if ($user->role === 'employer') {
+                return redirect()->route('employer.dashboard')
+                                 ->with('success', 'Chào mừng Nhà Tuyển Dụng!');
+            }
+
+            // Mặc định user
+            return redirect()->route('user.trangchu')
                              ->with('success', 'Đăng nhập thành công!');
         }
 
         return back()->withErrors([
             'email' => 'Email hoặc mật khẩu không đúng',
         ])->withInput($request->only('email'));
+    }
+
+    /**
+     * Redirect tới Google
+     */
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Callback từ Google
+     */
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+
+            // Kiểm tra email đã có trong DB chưa
+            $user = User::where('email', $googleUser->email)->first();
+
+            if (!$user) {
+                // Tạo mới user nếu chưa có
+                $user = User::create([
+                    'name' => $googleUser->name,
+                    'email' => $googleUser->email,
+                    'password' => Hash::make(Str::random(16)), // mật khẩu ngẫu nhiên
+                    'role' => 'user',
+                ]);
+            }
+
+            // Đăng nhập user
+            Auth::login($user);
+
+            return redirect()->route('user.trangchu')
+                             ->with('success', 'Đăng nhập thành công bằng Google!');
+        } catch (\Exception $e) {
+            return redirect()->route('login')
+                             ->with('error', 'Đăng nhập Google thất bại.');
+        }
     }
 
     /**
@@ -60,12 +117,13 @@ class AuthController extends User
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // hash mật khẩu
+            'password' => Hash::make($request->password),
             'role' => 'user', // mặc định role
         ]);
 
         Auth::login($user); // đăng nhập ngay sau khi đăng ký
-        return redirect('user/trangchu')->with('success', 'Đăng ký thành công!');
+        return redirect()->route('user.trangchu')
+                         ->with('success', 'Đăng ký thành công!');
     }
 
     /**
@@ -77,7 +135,7 @@ class AuthController extends User
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('authen/login')->with('success', 'Đăng xuất thành công!');
+        return redirect()->route('login')->with('success', 'Đăng xuất thành công!');
     }
 
     /**
@@ -86,7 +144,7 @@ class AuthController extends User
     public function updateAvatar(Request $request)
     {
         if (!Auth::check()) {
-            return redirect('authen/login')->with('error', 'Vui lòng đăng nhập trước!');
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập trước!');
         }
 
         $request->validate([
@@ -98,7 +156,7 @@ class AuthController extends User
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $filename = time().'_'.$file->getClientOriginalName();
-            $path = $file->storeAs('public/avatars', $filename);
+            $file->storeAs('public/avatars', $filename);
 
             $user->avatar = 'storage/avatars/'.$filename;
             $user->save();

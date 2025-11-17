@@ -1,4 +1,4 @@
-@extends('employer.layout.index')
+@extends('user.layout.index')
 
 @section('title', 'Trang đăng nhập')
 
@@ -35,13 +35,14 @@
 
     {{-- Nút đăng nhập Google --}}
     <a href="{{ url('/auth/google/redirect') }}" 
-       class="btn btn-light border d-flex align-items-center justify-content-center w-100 py-2"
-       style="gap: 8px; border-radius: 10px;">
+    class="btn btn-light border d-flex align-items-center justify-content-center w-100 py-2"
+    style="gap: 8px; border-radius: 10px;">
         <img src="https://developers.google.com/identity/images/g-logo.png" 
-             alt="Google Logo" 
-             width="20" height="20">
+            alt="Google Logo" 
+            width="20" height="20">
         <span class="fw-semibold">Đăng nhập bằng Google</span>
     </a>
+
 
     <p class="mt-4 text-center">
         Chưa có tài khoản?

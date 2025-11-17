@@ -72,3 +72,34 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])->name('user.recommend_job');
 });
 
+// Employer dashboard
+Route::middleware(['auth'])->group(function() {
+    Route::get('/employer/index', function () {
+        $user = auth()->user();
+
+        if (!$user || $user->role !== 'employer') {
+            return redirect()->route('login')->with('error', 'Bạn không có quyền truy cập');
+        }
+
+        return view('employer.index', ['user' => $user]);
+    })->name('employer.dashboard');
+});
+
+// admin dashboard
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        $user = auth()->user();
+
+        if (!$user || $user->role !== 'admin') {
+            return redirect()->route('login')->with('error', 'Bạn không có quyền truy cập');
+        }
+
+        return view('admin.dashboard', ['user' => $user]);
+    })->name('admin.dashboard');
+});
+
+Route::get('authen/logout', [AuthController::class, 'logout'])->name('authen.logout');
+
+Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+

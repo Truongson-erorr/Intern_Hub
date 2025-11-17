@@ -1,4 +1,4 @@
-@extends('employer.layout.index')
+@extends('user.layout.index')
 @section('title', 'Chỉnh sửa thông tin cá nhân')
 
 @section('content')

@@ -1,8 +1,8 @@
-    @extends('employer.layout.index')
+@extends('user.layout.index')
 
-    @section('title', 'Trang đăng ký')
+@section('title', 'Trang đăng ký')
 
-    @section('content')
+@section('content')
     <div class="container mt-5 pt-5" style="max-width: 500px;">
         <h2 class="mb-4 text-center">Đăng ký</h2>
         
@@ -27,4 +27,4 @@
             Bạn đã có tài khoản? <a href="{{ url('authen/login') }}">Đăng nhập</a>
         </p>
     </div>
-    @endsection
+@endsection

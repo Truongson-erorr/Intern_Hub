@@ -444,7 +444,7 @@
     <div class="sidebar">
         <div class="sidebar-header">
             <i class="fas fa-user-shield"></i>
-            <h2>Employer</h2>
+            <h2>Admin Panel</h2>
         </div>
         <div class="sidebar-menu">
             <a href="{{ route('admin.dashboard') }}" class="active">
