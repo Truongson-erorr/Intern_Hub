@@ -7,19 +7,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #5cb3ffff;
-            --secondary: #fe008cff;
-            --sidebar-bg: #1a1d29;
-            --sidebar-hover: rgba(92, 179, 255, 0.1);
-            --navbar-bg: rgba(255, 255, 255, 0.95);
-            --content-bg: #f5f7fb;
+            --primary: #4361ee;
+            --secondary: #7209b7;
+            --sidebar-bg: #ffffff;
+            --sidebar-hover: #f0f7ff;
+            --navbar-bg: #ffffff;
+            --content-bg: #f8fafc;
             --card-bg: #ffffff;
-            --text-light: #f8f9fa;
-            --text-dark: #212529;
-            --text-muted: #6c757d;
-            --border-color: rgba(0, 0, 0, 0.08);
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-light: #64748b;
+            --text-dark: #1e293b;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             --transition: all 0.3s ease;
+            --radius: 12px;
         }
 
         * {
@@ -32,50 +33,48 @@
         body {
             display: flex;
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: var(--content-bg);
             color: var(--text-dark);
             overflow-x: hidden;
         }
 
-        /* Sidebar Styles */
+        /* Sidebar Styles - White Theme */
         .sidebar {
             width: 260px;
             background: var(--sidebar-bg);
-            color: var(--text-light);
+            color: var(--text-dark);
             transition: var(--transition);
             position: fixed;
             height: 100vh;
             overflow-y: auto;
             z-index: 1000;
             box-shadow: var(--shadow);
+            border-right: 1px solid var(--border-color);
         }
 
         .sidebar-header {
             padding: 25px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(0, 0, 0, 0.2);
+            background: var(--sidebar-bg);
         }
 
         .sidebar-header h2 {
             font-size: 1.5rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.5px;
         }
 
         .sidebar-header i {
             font-size: 1.8rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
         }
 
         .sidebar-menu {
-            padding: 15px 0;
+            padding: 20px 0;
         }
 
         .sidebar-menu a {
@@ -85,8 +84,8 @@
             color: var(--text-light);
             text-decoration: none;
             padding: 14px 20px;
-            margin: 5px 10px;
-            border-radius: 8px;
+            margin: 4px 12px;
+            border-radius: var(--radius);
             transition: var(--transition);
             font-weight: 500;
         }
@@ -100,14 +99,15 @@
         .sidebar-menu a:hover, .sidebar-menu a.active {
             background: var(--sidebar-hover);
             color: var(--primary);
+            transform: translateX(4px);
         }
 
         .sidebar-menu a.logout {
-            color: #ff6b6b;
+            color: #ef4444;
         }
 
         .sidebar-menu a.logout:hover {
-            background: rgba(255, 107, 107, 0.1);
+            background: rgba(239, 68, 68, 0.1);
         }
 
         /* Main Content Area */
@@ -116,10 +116,7 @@
             margin-left: 260px;
             transition: var(--transition);
             background: var(--content-bg);
-            border-radius: 20px 0 0 20px;
-            margin: 10px 10px 10px 270px;
-            min-height: calc(100vh - 20px);
-            box-shadow: var(--shadow);
+            min-height: 100vh;
         }
 
         /* Navbar Styles */
@@ -130,8 +127,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 30px;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .navbar-left {
@@ -146,10 +142,9 @@
             font-size: 1.2rem;
             color: var(--text-muted);
             cursor: pointer;
-            display: none;
             width: 40px;
             height: 40px;
-            border-radius: 50%;
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -157,7 +152,8 @@
         }
 
         .toggle-sidebar:hover {
-            background: var(--border-color);
+            background: var(--sidebar-hover);
+            color: var(--primary);
         }
 
         .page-title {
@@ -177,18 +173,19 @@
             align-items: center;
             gap: 12px;
             padding: 8px 16px;
-            border-radius: 50px;
+            border-radius: var(--radius);
             transition: var(--transition);
+            background: var(--sidebar-hover);
         }
 
         .user-info:hover {
-            background: var(--border-color);
+            background: rgba(67, 97, 238, 0.15);
         }
 
         .user-avatar {
             width: 42px;
             height: 42px;
-            border-radius: 50%;
+            border-radius: var(--radius);
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             display: flex;
             align-items: center;
@@ -206,6 +203,7 @@
         .user-name {
             font-weight: 600;
             color: var(--text-dark);
+            font-size: 0.95rem;
         }
 
         .user-role {
@@ -218,19 +216,18 @@
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 50px;
+            border-radius: var(--radius);
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
             font-weight: 500;
-            box-shadow: 0 4px 10px rgba(92, 179, 255, 0.3);
         }
 
         .logout-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(92, 179, 255, 0.4);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.2);
         }
 
         /* Content Styles */
@@ -247,25 +244,26 @@
 
         .stat-card {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--radius);
             padding: 25px;
             box-shadow: var(--shadow);
             display: flex;
             align-items: center;
             gap: 15px;
             transition: var(--transition);
-            border-left: 4px solid var(--primary);
+            border: 1px solid var(--border-color);
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary);
         }
 
         .stat-icon {
             width: 60px;
             height: 60px;
-            border-radius: 12px;
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -278,9 +276,7 @@
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 5px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-dark);
         }
 
         .stat-info p {
@@ -291,15 +287,16 @@
         /* Recent Activity */
         .card {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             overflow: hidden;
             transition: var(--transition);
+            border: 1px solid var(--border-color);
         }
 
         .card:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
         }
 
         .card-header {
@@ -308,6 +305,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: var(--sidebar-hover);
         }
 
         .card-title {
@@ -346,7 +344,7 @@
         }
 
         .table th {
-            background: rgba(0, 0, 0, 0.02);
+            background: var(--sidebar-hover);
             font-weight: 600;
             color: var(--text-dark);
         }
@@ -356,7 +354,7 @@
         }
 
         .table tr:hover {
-            background: rgba(92, 179, 255, 0.03);
+            background: var(--sidebar-hover);
         }
 
         .badge {
@@ -366,10 +364,10 @@
             font-weight: 600;
         }
 
-        .badge-success { background: rgba(40, 167, 69, 0.1); color: #28a745; }
-        .badge-warning { background: rgba(255, 193, 7, 0.1); color: #ffc107; }
-        .badge-danger { background: rgba(220, 53, 69, 0.1); color: #dc3545; }
-        .badge-primary { background: rgba(92, 179, 255, 0.1); color: var(--primary); }
+        .badge-success { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+        .badge-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+        .badge-primary { background: rgba(67, 97, 238, 0.1); color: var(--primary); }
 
         .action-btn {
             color: var(--primary);
@@ -395,8 +393,6 @@
             
             .main {
                 margin-left: 0;
-                margin: 10px;
-                border-radius: 15px;
             }
             
             .stats-cards {
@@ -449,19 +445,27 @@
         <div class="sidebar-menu">
             <a href="{{ route('admin.dashboard') }}" class="active">
                 <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
+                <span>Trang chủ</span>
             </a>
-            <a href="#">
+            <a href="{{ route('admin.user.manager') }}"
+                class="{{ request()->routeIs('admin.user.manager') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
-                <span>Quản lý User</span>
+                <span>Quản lý người dùng</span>
             </a>
-            <a href="#">
-                <i class="fas fa-user-tie"></i>
-                <span>Quản lý Employer</span>
+            <a href="{{ route('admin.category.manager') }}"
+                class="{{ request()->routeIs('admin.category.manager') ? 'active' : '' }}">
+                <i class="fas fa-list"></i>
+                <span>Quản lý danh mục</span>
             </a>
-            <a href="#">
+            <a href="{{ route('admin.job.manager') }}"
+                class="{{ request()->routeIs('admin.job.manager') ? 'active' : '' }}">
                 <i class="fas fa-briefcase"></i>
-                <span>Quản lý Jobs</span>
+                <span>Quản lý công việc</span>
+            </a>
+            <a href="{{ route('admin.employer.manager') }}"
+                class="{{ request()->routeIs('admin.employer.manager') ? 'active' : '' }}">
+                <i class="fas fa-user-tie"></i>
+                <span>Quản lý công ty</span>
             </a>
             <a href="{{ route('authen.logout') }}" class="logout">
                 <i class="fas fa-sign-out-alt"></i>
@@ -496,8 +500,13 @@
                 </a>
             </div>
         </div>
-            @yield('content')
+        @yield('content')
     </div>
 
+    <script>
+        document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
