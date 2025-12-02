@@ -5,6 +5,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserManagerController;
+use App\Http\Controllers\Admin\JobManagerController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\EmployerManagerController;
 
 // Hiển thị form đăng nhập
 Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -103,3 +108,22 @@ Route::get('authen/logout', [AuthController::class, 'logout'])->name('authen.log
 Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
+// Routes for admin panel
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // User management
+    Route::get('/users', [UserManagerController::class, 'index'])->name('user.manager');
+
+    // Job management
+    Route::get('/jobs', [JobManagerController::class, 'index'])->name('job.manager');
+
+    // Category management
+    Route::get('/categories', [CategoryController::class, 'index'])->name('category.manager');
+
+    // Employer management
+    Route::get('/employers', [EmployerManagerController::class, 'index'])->name('employer.manager');
+
+});

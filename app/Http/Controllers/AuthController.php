@@ -11,17 +11,11 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    /**
-     * Hiển thị form đăng nhập
-     */
     public function showLoginForm()
     {
         return view('authen.login');
     }
 
-    /**
-     * Xử lý đăng nhập
-     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -55,27 +49,19 @@ class AuthController extends Controller
         ])->withInput($request->only('email'));
     }
 
-    /**
-     * Redirect tới Google
-     */
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    /**
-     * Callback từ Google
-     */
     public function handleGoogleCallback()
     {
         try {
             $googleUser = Socialite::driver('google')->stateless()->user();
 
-            // Kiểm tra email đã có trong DB chưa
             $user = User::where('email', $googleUser->email)->first();
 
             if (!$user) {
-                // Tạo mới user nếu chưa có
                 $user = User::create([
                     'name' => $googleUser->name,
                     'email' => $googleUser->email,
@@ -84,7 +70,6 @@ class AuthController extends Controller
                 ]);
             }
 
-            // Đăng nhập user
             Auth::login($user);
 
             return redirect()->route('user.trangchu')
@@ -95,17 +80,11 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Hiển thị form đăng ký
-     */
     public function showRegisterForm()
     {
         return view('authen.register');
     }
 
-    /**
-     * Xử lý đăng ký
-     */
     public function register(Request $request)
     {
         $request->validate([
@@ -126,9 +105,6 @@ class AuthController extends Controller
                          ->with('success', 'Đăng ký thành công!');
     }
 
-    /**
-     * Đăng xuất
-     */
     public function logout(Request $request)
     {
         Auth::logout();
@@ -138,9 +114,6 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Đăng xuất thành công!');
     }
 
-    /**
-     * Cập nhật avatar
-     */
     public function updateAvatar(Request $request)
     {
         if (!Auth::check()) {
