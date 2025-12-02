@@ -103,3 +103,13 @@ Route::get('authen/logout', [AuthController::class, 'logout'])->name('authen.log
 Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
+// Admin routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    
+    // approve job posting
+    Route::post('/jobs/{id}/approve', [AdminController::class, 'approveJob'])->name('admin.jobs.approve');
+
+    // delete job posting
+    Route::delete('/jobs/{id}', [AdminController::class, 'deleteJob'])->name('admin.jobs.delete');
+
+});
