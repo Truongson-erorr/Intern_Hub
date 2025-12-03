@@ -3,7 +3,6 @@
 
 @section('content')
 <style>
-/* ================= Hero Section ================= */
 .hero-header {
     background: linear-gradient(135deg, #5cb3ffff 0%, #fe008cff 100%);
     padding: 100px 0;
@@ -26,7 +25,6 @@
     transform: translateY(-3px);
 }
 
-/* ================= Job Categories ================= */
 .category-item {
     background: #fff;
     border-radius: 20px;
@@ -61,7 +59,6 @@
     .category-item i { font-size: 35px; }
 }
 
-/* ================= Featured Jobs ================= */
 .job-card {
     background: #fff;
     border-radius: 20px;
@@ -101,7 +98,6 @@
 }
 </style>
 
-<!-- ================= Hero Header ================= -->
 <div class="hero-header">
     <div class="container">
         <h1 class="mb-4">Tìm việc IT mơ ước của bạn ngay hôm nay</h1>
@@ -122,7 +118,6 @@
     </div>
 </div>
 
-<!-- ================= Job Categories ================= -->
 <div class="container py-5">
     <div class="text-center mb-5">
         <h2 class="fw-bold">Ngành nghề nổi bật</h2>
@@ -154,7 +149,6 @@
     </div>
 </div>
 
-<!-- ================= Featured Jobs ================= -->
 <div class="container py-5">
     <div class="text-center mb-5">
         <h2 class="fw-bold">Danh sách việc làm</h2>
