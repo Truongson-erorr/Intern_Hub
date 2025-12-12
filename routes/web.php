@@ -126,5 +126,49 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Employer management
     Route::get('/employers', [EmployerManagerController::class, 'index'])->name('employer.manager');
 
+    // Approve job posting
+    Route::post('/jobs/{id}/approve', [JobManagerController::class, 'approveJob'])->name('jobs.approve');
+
+    // Delete job posting
+    Route::delete('/jobs/{id}', [JobManagerController::class, 'deleteJob'])->name('jobs.delete');
+
+    // Edit job posting
+    Route::get('/jobs/{id}/edit', [JobManagerController::class, 'edit'])->name('jobs.edit');
+
+    // Update job posting
+    Route::put('/jobs/{id}', [JobManagerController::class, 'update'])->name('jobs.update');
+
+    // Deny job posting
+    Route::patch('/jobs/{id}/reject', [JobManagerController::class, 'rejectJob'])->name('jobs.reject');
+    // Show edit form for User (EDIT)
+    Route::get('/users/{id}/edit', [UserManagerController::class, 'edit'])->name('users.edit');
+    
+    // Handle update User (UPDATE)
+    Route::put('/users/{id}/update', [UserManagerController::class, 'update'])->name('users.update');
+    
+    // Delete User (DELETE)
+    Route::delete('/users/{id}', [UserManagerController::class, 'delete'])->name('users.delete');
+
+    // Crete new Category (STORE)
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    
+    // Show edit form for Category (EDIT)
+    Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    
+    // Handle update Category (UPDATE)
+    Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->name('categories.update');
+    
+    // Delete Category (DELETE)
+    Route::delete('/categories/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
+
+    // Show edit form for Employer (EDIT)
+    Route::get('/employers/{id}/edit', [EmployerManagerController::class, 'edit'])->name('employers.edit');
+    
+    // Handle update Employer (UPDATE)
+    Route::put('/employers/{id}/update', [EmployerManagerController::class, 'update'])->name('employers.update');
+    
+    // Delete Employer (DELETE)
+    Route::delete('/employers/{id}', [EmployerManagerController::class, 'delete'])->name('employers.delete');
 });
+
 
