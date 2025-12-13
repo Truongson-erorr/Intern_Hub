@@ -1,108 +1,194 @@
 @extends('admin.layout.index')
 
 @section('title', 'Chỉnh sửa Công việc - ' . $job->title)
-@section('page-title', 'Chỉnh sửa Công việc')
 
 @section('content')
-<h1 class="text-3xl font-bold text-gray-800 mb-6">Chỉnh sửa Bài đăng: {{ $job->title }}</h1>
+<style>
+    :root {
+        --primary: #4361ee;
+        --primary-dark: #3551d6;
+    }
 
-<div class="card shadow border-0 rounded-4">
-    <div class="card-body p-5">
-        {{-- Form chỉnh sửa sẽ sử dụng phương thức PUT/PATCH --}}
-        {{-- Giả định Route update là 'admin.jobs.update' --}}
+    /* BODY CĂN GIỮA FORM */
+    .edit-job-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 3rem 1rem;
+        background-color: #f8f9fa;
+    }
+
+    /* CARD HIỆN ĐẠI */
+    .card-modern {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 6px 30px rgba(0,0,0,0.08);
+        width: 100%;
+        max-width: 700px;
+        background: #fff;
+        padding: 2rem;
+    }
+
+    /* TITLE */
+    .page-title-modern {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: #2d3748;
+    }
+
+    .page-title-modern i {
+        color: var(--primary);
+        font-size: 2rem;
+    }
+
+    /* FORM HIỆN ĐẠI */
+    .form-label {
+        font-weight: 600;
+        color: #4a5568;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control, .form-select, textarea {
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        transition: all 0.25s ease;
+        font-size: 1rem;
+        resize: vertical;
+    }
+
+    .form-control:focus, .form-select:focus, textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.2rem rgba(67,97,238,0.2);
+    }
+
+    /* KHUNG MARGIN CÁC Ô FORM */
+    .form-group {
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* BUTTON HIỆN ĐẠI */
+    .btn-modern {
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s ease;
+    }
+
+    .btn-modern-primary {
+        background-color: var(--primary);
+        color: #fff;
+        border: none;
+    }
+
+    .btn-modern-primary:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    .btn-modern-secondary {
+        background-color: #edf2f7;
+        color: var(--primary);
+        border: none;
+    }
+
+    .btn-modern-secondary:hover {
+        background-color: #e2e8f0;
+        transform: translateY(-1px);
+    }
+
+    /* BUTTONS GROUP */
+    .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+        gap: 1rem;
+    }
+
+    /* TEXT ERROR */
+    .text-danger {
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    /* RESPONSIVE NHẸ */
+    @media(max-width: 640px) {
+        .form-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="edit-job-wrapper">
+    <div class="card-modern">
+        <h2 class="page-title-modern"><i class="fas fa-edit"></i> Chỉnh sửa Công việc</h2>
+
         <form method="POST" action="{{ route('admin.jobs.update', $job->id) }}">
             @csrf
-            @method('PUT') 
+            @method('PUT')
 
-            {{-- 1. Tiêu đề Công việc --}}
-            <div class="mb-4">
-                <label for="title" class="form-label font-weight-bold">Tiêu đề Công việc</label>
+            <div class="form-group">
+                <label for="title" class="form-label">Tiêu đề Công việc</label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $job->title) }}" required>
                 @error('title')
-                    <div class="text-danger mt-1">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
-            {{-- 2. Địa điểm --}}
-            <div class="mb-4">
-                <label for="location" class="form-label font-weight-bold">Địa điểm</label>
+            <div class="form-group">
+                <label for="company" class="form-label">Công ty</label>
+                <input type="text" class="form-control" id="company" name="company" value="{{ old('company', $job->company) }}">
+            </div>
+
+            <div class="form-group">
+                <label for="location" class="form-label">Địa điểm</label>
                 <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $job->location) }}">
             </div>
 
-            {{-- 3. Lương --}}
-            <div class="mb-4">
-                <label for="salary" class="form-label font-weight-bold">Mức Lương</label>
+            <div class="form-group">
+                <label for="salary" class="form-label">Mức Lương</label>
                 <input type="text" class="form-control" id="salary" name="salary" value="{{ old('salary', $job->salary) }}">
             </div>
 
-            {{-- 4. Kinh nghiệm --}}
-            <div class="mb-4">
-                <label for="experience" class="form-label font-weight-bold">Kinh nghiệm</label>
+            <div class="form-group">
+                <label for="experience" class="form-label">Kinh nghiệm</label>
                 <input type="text" class="form-control" id="experience" name="experience" value="{{ old('experience', $job->experience) }}">
             </div>
 
-            {{-- 5. Mô tả Công việc --}}
-            <div class="mb-4">
-                <label for="description" class="form-label font-weight-bold">Mô tả Công việc</label>
+            <div class="form-group">
+                <label for="description" class="form-label">Mô tả Công việc</label>
                 <textarea class="form-control" id="description" name="description" rows="5" required>{{ old('description', $job->description) }}</textarea>
             </div>
-            
-            {{-- 6. Yêu cầu ứng viên --}}
-            <div class="mb-4">
-                <label for="candidate_requirements" class="form-label font-weight-bold">Yêu cầu Ứng viên</label>
+
+            <div class="form-group">
+                <label for="candidate_requirements" class="form-label">Yêu cầu Ứng viên</label>
                 <textarea class="form-control" id="candidate_requirements" name="candidate_requirements" rows="3">{{ old('candidate_requirements', $job->candidate_requirements) }}</textarea>
             </div>
 
-            {{-- 7. Thu nhập --}}
-            <div class="mb-4">
-                <label for="income" class="form-label font-weight-bold">Thu nhập</label>
-                <input type="text" class="form-control" id="income" name="income" value="{{ old('income', $job->income) }}">
-            </div>
-            
-            {{-- 8. Phúc lợi --}}
-            <div class="mb-4">
-                <label for="benefits" class="form-label font-weight-bold">Phúc lợi</label>
-                <textarea class="form-control" id="benefits" name="benefits" rows="3">{{ old('benefits', $job->benefits) }}</textarea>
-            </div>
-
-            {{-- 9. Nơi làm việc --}}
-            <div class="mb-4">
-                <label for="work_location" class="form-label font-weight-bold">Nơi làm việc</label>
-                <input type="text" class="form-control" id="work_location" name="work_location" value="{{ old('work_location', $job->work_location) }}">
-            </div>
-
-            {{-- 10. Thời gian làm việc --}}
-            <div class="mb-4">
-                <label for="work_time" class="form-label font-weight-bold">Thời gian làm việc</label>
-                <input type="text" class="form-control" id="work_time" name="work_time" value="{{ old('work_time', $job->work_time) }}">
-            </div>
-
-            {{-- 11. Hình thức ứng tuyển --}}
-            <div class="mb-4">
-                <label for="application_method" class="form-label font-weight-bold">Hình thức ứng tuyển</label>
-                <input type="text" class="form-control" id="application_method" name="application_method" value="{{ old('application_method', $job->application_method) }}">
-            </div>
-
-            {{-- 12. Bằng cấp --}}
-            <div class="mb-4">
-                <label for="degree_requirements" class="form-label font-weight-bold">Yêu cầu Bằng cấp</label>
-                <input type="text" class="form-control" id="degree_requirements" name="degree_requirements" value="{{ old('degree_requirements', $job->degree_requirements) }}">
-            </div>
-
-            {{-- 13. Hạn nộp --}}
-            <div class="mb-4">
-                <label for="deadline" class="form-label font-weight-bold">Hạn nộp</label>
-                {{-- Lưu ý: Nếu cột deadline là kiểu Date/Datetime, bạn có thể cần định dạng lại giá trị cho input type="date" --}}
+            <div class="form-group">
+                <label for="deadline" class="form-label">Hạn nộp</label>
                 <input type="date" class="form-control" id="deadline" name="deadline" value="{{ old('deadline', $job->deadline ? $job->deadline->format('Y-m-d') : '') }}">
             </div>
 
-
-            <div class="d-flex justify-content-between mt-4">
-                <a href="{{ route('admin.job.manager') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Quay lại
+            <div class="form-buttons">
+                <a href="{{ route('admin.job.manager') }}" class="btn btn-modern btn-modern-secondary">
+                    Quay lại
                 </a>
-                <button type="submit" class="btn btn-primary" style="background-color: var(--primary); border-color: var(--primary);">
-                    <i class="fas fa-save"></i> Lưu Thay Đổi
+                <button type="submit" class="btn btn-modern btn-modern-primary">
+                    Lưu Thay Đổi
                 </button>
             </div>
         </form>

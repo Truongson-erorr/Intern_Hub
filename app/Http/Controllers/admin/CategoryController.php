@@ -41,7 +41,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         // Trả về view: resources/views/admin/categories/edit.blade.php
-        return view('admin.categories.edit', compact('category'));
+        return view('admin.edit_category_manager', compact('category'));
     }
 
     /**

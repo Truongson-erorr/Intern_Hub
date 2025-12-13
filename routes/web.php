@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\JobManagerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EmployerManagerController;
 
+
+//Sơn
 // Hiển thị form đăng nhập
 Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('login');
 
@@ -77,6 +79,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])->name('user.recommend_job');
 });
 
+// An
 // Employer dashboard
 Route::middleware(['auth'])->group(function() {
     Route::get('/employer/index', function () {
@@ -90,6 +93,7 @@ Route::middleware(['auth'])->group(function() {
     })->name('employer.dashboard');
 });
 
+//Phương
 // admin dashboard
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', function () {
