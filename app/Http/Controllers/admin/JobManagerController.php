@@ -13,7 +13,50 @@ class JobManagerController extends Controller
         $jobs = Job::orderBy('id', 'asc')->get(); 
         return view('admin.job_manager', compact('jobs'));
     }
+    public function create()
+    {
+        return view('admin.create_job_manager');
+    }
 
+    public function store(Request $request)
+    {
+        // 1. Validation (Bắt buộc phải có để kiểm tra dữ liệu)
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'employer_id' => 'required|integer|min:1', 
+            'description' => 'required',
+            'salary' => 'nullable|string|max:50',
+            'location' => 'nullable|string|max:255',
+            'experience' => 'nullable|string|max:255',
+        ]);
+        
+        try {
+            // 2. Tạo Job mới và gán giá trị (Dùng gán thủ công để tránh lỗi Mass Assignment)
+            $job = new Job();
+            
+            $job->title = $validatedData['title'];
+            $job->employer_id = $validatedData['employer_id'];
+            $job->description = $validatedData['description'];
+            
+            // Xử lý các trường nullable (Nếu trống, gán giá trị mặc định)
+            $job->salary = $validatedData['salary'] ?? 'Thỏa thuận';
+            $job->location = $validatedData['location'] ?? 'Chưa cập nhật';
+            $job->experience = $validatedData['experience'] ?? '0 năm';
+            $job->status = 1; // Mặc định Admin tạo là Đã duyệt
+            
+            // Thêm các trường khác nếu có trong Model Job (ví dụ: application_method, deadline...)
+            // $job->deadline = $request->input('deadline'); 
+            
+            $job->save(); // Lưu vào database
+            
+            return redirect()->route('admin.job.manager')->with('success', 'Đã thêm công việc mới thành công.');
+
+        } catch (\Exception $e) {
+            // Ghi log lỗi và hiển thị thông báo lỗi thân thiện
+            \Log::error('Job Store Error: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Lỗi hệ thống: Không thể thêm công việc. Vui lòng kiểm tra lại ID Công ty và các trường bắt buộc.');
+        }
+    }
     public function approveJob($id)
     {
         $job = Job::findOrFail($id);

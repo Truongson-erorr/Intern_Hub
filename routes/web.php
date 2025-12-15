@@ -165,6 +165,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Delete Category (DELETE)
     Route::delete('/categories/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
 
+    // CRUD for Employer
+    Route::get('/employers/{id}/edit', [EmployerManagerController::class, 'edit'])->name('employers.edit');
+    Route::put('/employers/{id}/update', [EmployerManagerController::class, 'update'])->name('employers.update');
+    Route::delete('/employers/{id}', [EmployerManagerController::class, 'delete'])->name('employers.delete');
+
     // Show edit form for Employer (EDIT)
     Route::get('/employers/{id}/edit', [EmployerManagerController::class, 'edit'])->name('employers.edit');
     
@@ -172,6 +177,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::put('/employers/{id}/update', [EmployerManagerController::class, 'update'])->name('employers.update');
     
     // Delete Employer (DELETE)
+    Route::delete('/employers/{id}', [EmployerManagerController::class, 'delete'])->name('employers.delete');
+    
+    // Create new Job (STORE)
+    Route::post('/jobs', [JobManagerController::class, 'store'])->name('jobs.store');
+    
+    // BỔ SUNG: Xử lý lưu Công ty mới (STORE)
+    Route::post('/employers', [EmployerManagerController::class, 'store'])->name('employers.store');
+    
+    // ... (Các Route CRUD khác cho Employer giữ nguyên) ...
+    Route::get('/employers/{id}/edit', [EmployerManagerController::class, 'edit'])->name('employers.edit');
+    Route::put('/employers/{id}/update', [EmployerManagerController::class, 'update'])->name('employers.update');
     Route::delete('/employers/{id}', [EmployerManagerController::class, 'delete'])->name('employers.delete');
 });
 
