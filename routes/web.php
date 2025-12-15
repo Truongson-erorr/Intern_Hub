@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\JobManagerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EmployerManagerController;
 
+
+//Sơn
 // Hiển thị form đăng nhập
 Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('login');
 
@@ -77,6 +79,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])->name('user.recommend_job');
 });
 
+// An
 // Employer dashboard
 Route::middleware(['auth'])->group(function() {
     Route::get('/employer/index', function () {
@@ -90,6 +93,7 @@ Route::middleware(['auth'])->group(function() {
     })->name('employer.dashboard');
 });
 
+//Phương
 // admin dashboard
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', function () {
@@ -178,6 +182,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Create new Job (STORE)
     Route::post('/jobs', [JobManagerController::class, 'store'])->name('jobs.store');
     
+    // BỔ SUNG: Xử lý lưu Công ty mới (STORE)
+    Route::post('/employers', [EmployerManagerController::class, 'store'])->name('employers.store');
+    
+    // ... (Các Route CRUD khác cho Employer giữ nguyên) ...
+    Route::get('/employers/{id}/edit', [EmployerManagerController::class, 'edit'])->name('employers.edit');
+    Route::put('/employers/{id}/update', [EmployerManagerController::class, 'update'])->name('employers.update');
+    Route::delete('/employers/{id}', [EmployerManagerController::class, 'delete'])->name('employers.delete');
 });
 
 
