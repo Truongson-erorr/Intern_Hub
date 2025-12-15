@@ -25,6 +25,7 @@
     }
 
     .card-header {
+        margin-top: 10px;
         background-color: var(--primary);
         color: #fff;
         padding: 1rem 1.5rem;

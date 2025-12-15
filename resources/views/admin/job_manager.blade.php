@@ -27,6 +27,7 @@
     }
 
     .card-header {
+        margin-top: 10px;
         background-color: var(--primary);
         color: #fff;
         padding: 1rem 1.5rem;
@@ -253,6 +254,7 @@
     
     /* === NÚT THÊM MỚI CHUNG === */
     .btn-add-new {
+        margin-top: 30px;
         background-color: var(--primary);
         color: #fff;
         font-weight: 600;

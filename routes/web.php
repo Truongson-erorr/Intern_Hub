@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserManagerController;
 use App\Http\Controllers\Admin\JobManagerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EmployerManagerController;
+use App\Http\Controllers\Admin\ApplicationManagerController;
 
 Route::prefix('authen')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -88,10 +89,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/jobs', [JobManagerController::class, 'index'])->name('job.manager');
     Route::post('/jobs', [JobManagerController::class, 'store'])->name('jobs.store');
     Route::get('/jobs/{id}/edit', [JobManagerController::class, 'edit'])->name('jobs.edit');
-    Route::put('/jobs/{id}', [JobManagerController::class, 'update'])->name('jobs.update');
+    Route::put('/jobs/{id}/update', [JobManagerController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs/{id}', [JobManagerController::class, 'deleteJob'])->name('jobs.delete');
     Route::post('/jobs/{id}/approve', [JobManagerController::class, 'approveJob'])->name('jobs.approve');
     Route::patch('/jobs/{id}/reject', [JobManagerController::class, 'rejectJob'])->name('jobs.reject');
+
+    // Application manager 
+    Route::get('/application_job_manager', [ApplicationManagerController::class, 'index'])
+        ->name('application_job');
 
     // Category
     Route::get('/categories', [CategoryController::class, 'index'])->name('category.manager');
@@ -106,4 +111,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/employers/{id}/edit', [EmployerManagerController::class, 'edit'])->name('employers.edit');
     Route::put('/employers/{id}/update', [EmployerManagerController::class, 'update'])->name('employers.update');
     Route::delete('/employers/{id}', [EmployerManagerController::class, 'delete'])->name('employers.delete');
+
 });
+
