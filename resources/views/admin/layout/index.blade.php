@@ -442,31 +442,44 @@
             <i class="fas fa-user-shield"></i>
             <h2>Admin Panel</h2>
         </div>
+
         <div class="sidebar-menu">
-            <a href="{{ route('admin.dashboard') }}" class="active">
+            <a href="{{ route('admin.dashboard') }}"
+            class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Trang chủ</span>
             </a>
+
             <a href="{{ route('admin.user.manager') }}"
-                class="{{ request()->routeIs('admin.user.manager') ? 'active' : '' }}">
+            class="{{ request()->routeIs('admin.user.manager') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span>Quản lý người dùng</span>
             </a>
+
             <a href="{{ route('admin.category.manager') }}"
-                class="{{ request()->routeIs('admin.category.manager') ? 'active' : '' }}">
+            class="{{ request()->routeIs('admin.category.manager') ? 'active' : '' }}">
                 <i class="fas fa-list"></i>
                 <span>Quản lý danh mục</span>
             </a>
+
             <a href="{{ route('admin.job.manager') }}"
-                class="{{ request()->routeIs('admin.job.manager') ? 'active' : '' }}">
+            class="{{ request()->routeIs('admin.job.manager') ? 'active' : '' }}">
                 <i class="fas fa-briefcase"></i>
                 <span>Quản lý công việc</span>
             </a>
+
             <a href="{{ route('admin.employer.manager') }}"
-                class="{{ request()->routeIs('admin.employer.manager') ? 'active' : '' }}">
+            class="{{ request()->routeIs('admin.employer.manager') ? 'active' : '' }}">
                 <i class="fas fa-user-tie"></i>
                 <span>Quản lý công ty</span>
             </a>
+
+            <a href="{{ route('admin.application_job') }}"
+            class="{{ request()->routeIs('admin.application_job') ? 'active' : '' }}">
+                <i class="fas fa-file-alt"></i>
+                <span>Danh sách CV ứng tuyển</span>
+            </a>
+
             <a href="{{ route('authen.logout') }}" class="logout">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Đăng xuất</span>
