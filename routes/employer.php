@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Employer\AccountController;
 use App\Http\Controllers\Employer\CandidateController;
 use App\Http\Controllers\Employer\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -55,4 +56,11 @@ Route::prefix('employer')->name('employer.')->middleware(['auth', 'employer'])->
         Route::get('/download/{id}', [CandidateController::class, 'downloadCv'])->name('download');
         Route::get('/view-cv/{id}', [CandidateController::class, 'viewCv'])->name('view-cv');
     });
+
+    // 5. Route for employer account
+    Route::prefix('account')->name('account.')->group(function() {
+    Route::get('/', [AccountController::class, 'index'])->name('index');
+    Route::post('/update-info', [AccountController::class, 'updateInfo'])->name('updateInfo');
+    Route::post('/change-password', [AccountController::class, 'changePassword'])->name('changePassword');
+});
 });

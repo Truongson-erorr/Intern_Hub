@@ -42,14 +42,16 @@
             <span class="fw-semibold">Đăng nhập bằng Google</span>
         </a>
 
-        <div class="d-flex justify-content-center gap-2">
-            <a href="{{ url('authen/register') }}" class="fw-semibold text-primary text-decoration-none">
-                Đăng ký Sinh viên
-            </a>
-
-            <a href="{{ route('employer.register') }}" class="btn btn-outline-primary btn-sm">
-                Đăng ký Nhà tuyển dụng
-            </a>
-        </div>
+        <div class="text-center mt-4 small">
+                <a href="{{ url('authen/register') }}"
+                   class="text-primary fw-semibold text-decoration-none">
+                    Đăng ký Sinh viên
+                </a>
+                <span class="mx-2 text-muted">|</span>
+                <a href="{{ route('employer.register') }}"
+                   class="text-primary fw-semibold text-decoration-none">
+                    Đăng ký Nhà tuyển dụng
+                </a>
+            </div>
     </div>
 @endsection

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-dark">Hồ sơ công ty</h2>
+        <h3 class="fw-bold text-dark">Hồ Sơ Công Ty<h3>
     </div>
 
     @if(session('success'))
@@ -88,8 +88,8 @@
                         <hr>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
-                                <i class="fas fa-save me-2"></i> Lưu thay đổi
+                            <button type="submit" class="btn btn-primary px-4 py-2 rounded fw-bold shadow-sm">
+                                Lưu thay đổi
                             </button>
                         </div>
 

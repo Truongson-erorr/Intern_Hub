@@ -172,7 +172,7 @@
     <div class="job-container d-flex flex-wrap justify-content-center gap-4" style="margin: 20px;">
 
         {{-- Chi tiết công việc --}}
-        <div class="job-detail flex-grow-1" style="max-width: 950px;">
+        <div class="job-detail grow" style="max-width: 950px;">
             <h2>{{ $job->title }}</h2>
             <p class="text-muted">📍 {{ $job->location }}</p>
             <p>

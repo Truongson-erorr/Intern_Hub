@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-dark">Dashboard</h2>
+        <h3 class="fw-bold text-dark">Dashboard<h3>
         {{-- Link tới route tạo job --}}
         <a href="{{ route('employer.jobs.create') }}" class="btn btn-primary rounded px-4 shadow-sm">
             <i class="fas fa-plus me-2"></i> Đăng tin mới

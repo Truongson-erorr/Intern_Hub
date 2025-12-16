@@ -111,12 +111,16 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('employer.account.index') }}">
                                     <i class="fas fa-user me-2"></i> Thông tin tài khoản
-                                </a></li>
-                            <li><a class="dropdown-item" href="#">
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-cog me-2"></i> Cài đặt
-                                </a></li>
+                                </a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
