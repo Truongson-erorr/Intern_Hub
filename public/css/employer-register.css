@@ -1,0 +1,127 @@
+/* --- Biến màu sắc (Có thể thay đổi theo brand của bạn) --- */
+:root {
+    --brand-primary: #0f766e; /* Màu xanh Teal đậm chuyên nghiệp */
+    --brand-primary-hover: #0d615b;
+    --brand-bg-light: #f0f9ff; /* Màu nền sáng nhẹ */
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border-color-input: #e2e8f0;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Sử dụng font Inter */
+    background-color: var(--brand-bg-light) !important;
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- Tùy chỉnh Card --- */
+.modern-card {
+    border-radius: 16px; /* Bo góc mạnh hơn */
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.06), 0 5px 15px -3px rgba(0, 0, 0, 0.03) !important; /* Shadow mềm mại, hiện đại */
+    overflow: hidden; /* Để dải màu trên cùng không bị lòi ra */
+    position: relative;
+}
+
+/* Dải màu trang trí trên đỉnh card */
+.card-accent-strip {
+    height: 6px;
+    background: var(--brand-primary);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* --- Typography & Headers --- */
+.brand-color {
+    color: var(--brand-primary) !important;
+}
+
+.section-title {
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 1.1rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+/* Thay thế border-bottom bằng gạch chân tinh tế hơn */
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px; /* Chỉ gạch chân một đoạn ngắn */
+    height: 3px;
+    background-color: var(--brand-primary);
+    border-radius: 2px;
+    opacity: 0.7;
+}
+
+/* --- Tùy chỉnh Form Inputs --- */
+.form-label {
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+/* Input hiện đại hơn */
+.form-control-lg-modern {
+    padding: 0.75rem 1rem; /* Tăng padding */
+    font-size: 0.95rem;
+    border-color: var(--border-color-input);
+    border-radius: 8px; /* Bo góc input */
+    background-color: #fbfcfd; /* Nền input hơi xám cực nhẹ */
+    transition: all 0.2s ease-in-out;
+}
+
+.form-control-lg-modern:focus {
+    background-color: #fff;
+    border-color: var(--brand-primary); /* Đổi màu border khi focus */
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15); /* Shadow focus màu thương hiệu */
+}
+
+/* Placeholder màu nhạt hơn */
+.form-control-lg-modern::placeholder {
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+/* --- Tùy chỉnh Button --- */
+.btn-brand {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(15, 118, 110, 0.2); /* Shadow nhẹ cho nút */
+}
+
+.btn-brand:hover, .btn-brand:focus {
+    background-color: var(--brand-primary-hover);
+    border-color: var(--brand-primary-hover);
+    color: white;
+    transform: translateY(-1px); /* Hiệu ứng nổi nhẹ khi hover */
+    box-shadow: 0 6px 8px -2px rgba(15, 118, 110, 0.3);
+}
+
+/* --- Link --- */
+.brand-link {
+    color: var(--brand-primary);
+    transition: color 0.2s;
+}
+.brand-link:hover {
+    color: var(--brand-primary-hover);
+    text-decoration: underline !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1.5rem !important; /* Giảm padding trên mobile */
+    }
+    .section-title {
+        margin-top: 1.5rem !important;
+    }
+}

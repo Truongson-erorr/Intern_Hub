@@ -142,43 +142,58 @@ class AuthController extends Controller
         return back()->with('error', 'Không có file ảnh nào được chọn.');
     }
 
+    // This Section Below Use For Employer
+    public function showRegisterEmployerForm()
+    {
+        return view('authen.register_employer');
+    }
     public function registerEmployer(Request $request)
     {
-        // 1. Validate dữ liệu
+        // 1. Validate
         $request->validate([
-            'email' => 'required|email|unique:users',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email', // Check trùng bảng users
             'password' => 'required|confirmed|min:6',
-            'company_name' => 'required',
+            'company_name' => 'required|string|max:255',
+            // 'company_email' => 'nullable|email|unique:employers,contact_email', // Nếu muốn check trùng cả bảng employers
+        ], [
+            'email.unique' => 'Email đăng nhập này đã tồn tại.',
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
         ]);
 
-        // 2. Sử dụng Transaction để đảm bảo toàn vẹn dữ liệu
         DB::beginTransaction();
         try {
-            // Bước 1: Tạo User (Tài khoản đăng nhập)
+            // 2. Tạo User
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => 'employer', // Set cứng role là employer
+                'role' => 'employer',
             ]);
 
-            // Bước 2: Tạo Hồ sơ doanh nghiệp (Liên kết với User vừa tạo)
+            // 3. Tạo Employer Profile
             Employer::create([
                 'user_id' => $user->id,
                 'company_name' => $request->company_name,
-                'phone' => $request->company_phone,
-                'website' => $request->company_website,
-                'address' => $request->company_address,
-                'is_approved' => 0 // Quan trọng: Mặc định chưa được duyệt
+
+                // --- SỬA LỖI TẠI ĐÂY ---
+                // Lấy email đăng nhập làm email liên hệ luôn
+                'contact_email' => $request->email,
+
+                'phone' => $request->company_phone ?? null,
+                'website' => $request->company_website ?? null,
+                'address' => $request->company_address ?? null,
+                'is_approved' => 0
             ]);
 
-            DB::commit(); // Lưu tất cả vào DB
+            DB::commit();
 
-            // Bước 3: Thông báo và chuyển hướng
-            return redirect()->route('login')->with('success', 'Đăng ký thành công! Vui lòng chờ Admin duyệt tài khoản.');
+            return redirect()->route('login')
+                ->with('success', 'Đăng ký thành công! Vui lòng chờ tài khoản của bạn được kích hoạt.');
         } catch (\Exception $e) {
-            DB::rollBack(); // Nếu lỗi thì hoàn tác, không tạo rác
-            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+            DB::rollBack();
+            // Log lỗi ra để debug nếu cần: \Log::error($e->getMessage());
+            return back()->with('error', 'Lỗi hệ thống: ' . $e->getMessage())->withInput();
         }
     }
 }

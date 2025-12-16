@@ -8,9 +8,8 @@ window.addEventListener('DOMContentLoaded', event => {
             document.body.classList.toggle('sb-sidenav-toggled');
             document.getElementById('wrapper').classList.toggle('toggled');
             
-            // Đổi icon nút toggle
             const icon = sidebarToggle.querySelector('i');
-            if(icon.classList.contains('fa-bars')){
+            if (icon.classList.contains('fa-bars')) {
                 icon.classList.replace('fa-bars', 'fa-times');
             } else {
                 icon.classList.replace('fa-times', 'fa-bars');

@@ -12,18 +12,20 @@ class Employer extends Model
     protected $table = 'employers';
 
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'address',
+        'user_id',
+        'company_name',
+        'contact_email',
+        'logo',
         'website',
+        'address',
+        'phone',
+        'is_approved'
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-    ];
+    public $timestamps = false;
 
-    protected $hidden = ['password'];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
