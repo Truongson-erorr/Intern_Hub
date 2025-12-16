@@ -33,6 +33,9 @@ Route::get('user/trangchu', function () {
     return view('user.trangchu');
 });
 
+Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
 // Cách 2: render qua controller — hợp lý hơn vì có thể lấy dữ liệu từ database
 Route::get('/user/trangchu', [JobController::class, 'index'])->name('user.trangchu');
 

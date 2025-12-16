@@ -3,10 +3,11 @@
 @section('title', 'Chi tiết hồ sơ')
 
 @section('content')
-    <div class="mb-4">
-        <a href="{{ route('employer.candidates.index') }}" class="btn btn-secondary rounded-pill px-3">
-            <i class="fas fa-arrow-left me-2"></i> Quay lại danh sách
-        </a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold text-dark">Xem Thông Tin Ứng Viên<h3>
+                <a href="{{ route('employer.candidates.index') }}" class="btn btn-secondary rounded px-3">
+                    <i class="fas fa-arrow-left me-2"></i> Quay lại
+                </a>
     </div>
 
     @if (session('success'))
@@ -60,11 +61,10 @@
 
                     {{-- File CV --}}
                     <div class="mb-4">
-                        <label class="fw-bold text-dark mb-2">CV đính kèm:</label>
+                        <label class="fw-bold text-dark mb-2">CV đính kèm [Định dạng PDF]:</label>
                         <div class="d-flex align-items-center">
                             <i class="fas fa-file-pdf fa-3x text-danger me-3"></i>
                             <div>
-                                {{-- Logic: Nếu là file PDF thì cho xem online hoặc tải về --}}
                                 <a href="{{ route('employer.candidates.download', $application->id) }}"
                                     class="btn btn-outline-primary btn-sm">
                                     <i class="fas fa-download me-1"></i> Tải xuống CV
@@ -87,7 +87,7 @@
                             <div class="row align-items-end">
                                 <div class="col-md-8">
                                     <label class="form-label">Thay đổi trạng thái:</label>
-                                    <select name="status" class="form-select form-select-lg">
+                                    <select name="status" class="form-select form-select-md">
                                         <option value="pending" {{ $application->status == 'pending' ? 'selected' : '' }}>
                                             Chờ duyệt</option>
                                         <option value="reviewed"
@@ -102,7 +102,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">
+                                    <button type="submit" class="btn btn-primary btn-md w-100 fw-bold">
                                         Cập nhật
                                     </button>
                                 </div>

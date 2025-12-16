@@ -76,13 +76,20 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
-                                            {{ strtoupper(substr($app->user->name ?? 'U', 0, 1)) }}
-                                        </div>
+                                        @if ($app->user->avatar)
+                                            <img src="{{ asset($app->user->avatar) }}"
+                                                class="rounded-circle img-thumbnail"
+                                                style="width: 30px; height: 30px; object-fit: cover;">
+                                        @else
+                                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto fw-bold display-4"
+                                                style="width: 30px; height: 30px;">
+                                                {{ strtoupper(substr($app->user->name, 0, 1)) }}
+                                            </div>
+                                        @endif
                                         <strong>{{ $app->user->name ?? 'Người dùng ẩn' }}</strong>
                                     </div>
                                 </td>
-                                
+
                                 {{-- Tiêu đề Job --}}
                                 <td>
                                     <span class="text-truncate d-inline-block" style="max-width: 200px;">
@@ -119,8 +126,9 @@
                                 {{-- Nút hành động --}}
                                 <td>
                                     {{-- Link xem chi tiết CV --}}
-                                    <a href="#" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-eye"></i> Xem CV
+                                    <a href="{{ route('employer.candidates.show', $app->id) }}"
+                                        class="btn btn-sm btn-outline-primary">
+                                        Xem Hồ Sơ
                                     </a>
                                 </td>
                             </tr>

@@ -10,11 +10,8 @@
         </a>
     </div>
 
-    {{-- Form gửi tới Route Update. Cần truyền ID của job vào --}}
     <form action="{{ route('employer.jobs.update', $job->id) }}" method="POST">
         @csrf
-        {{-- Nếu route của bạn dùng POST thì để nguyên. Nếu dùng PUT/PATCH thì thêm dòng dưới --}}
-        {{-- @method('PUT') --}}
 
         <div class="row">
             <div class="col-md-8">
