@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserManagerController;
 use App\Http\Controllers\Admin\JobManagerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EmployerManagerController;
+use App\Http\Controllers\Admin\ApplicationManagerController;
 
 // Hiển thị form đăng nhập
 Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -18,7 +19,7 @@ Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('logi
 Route::post('authen/login', [AuthController::class, 'login']);
 
 // Đăng xuất tài khoản
-Route::get('authen/logout', [AuthController::class, 'logout']);
+Route::get('authen/logout', [AuthController::class, 'logout'])->name('authen.logout');
 
 // Hiển thị form đăng ký
 Route::get('authen/register', [AuthController::class, 'showRegisterForm']);
@@ -42,6 +43,12 @@ Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
 Route::get('/user/profile', function () {
     return view('user.profile');
 })->name('user.profile');
+
+// Nút redirect tới Google
+Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');
+
+// Callback nhận dữ liệu từ Google
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
 // USER cần đăng nhập
 Route::middleware('auth')->group(function () {

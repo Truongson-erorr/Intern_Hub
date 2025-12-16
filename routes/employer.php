@@ -12,6 +12,4 @@ Route::prefix('employer')->middleware('auth')->group(function () {
         return view('employer.index');
     })->name('employer.dashboard');
 
-    
-
 });
