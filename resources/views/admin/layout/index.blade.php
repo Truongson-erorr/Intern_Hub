@@ -480,7 +480,7 @@
                 <span>Danh sách CV ứng tuyển</span>
             </a>
 
-            <a href="{{ route('authen.logout') }}" class="logout">
+            <a href="{{ url('authen/logout') }}" class="logout">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Đăng xuất</span>
             </a>

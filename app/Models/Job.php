@@ -20,4 +20,14 @@ class Job extends Model
     protected $casts = [
         'deadline' => 'date',
     ];
+
+    // Quan hệ: Job thuộc về 1 Employer
+    public function employer() {
+        return $this->belongsTo(Employer::class);
+    }
+
+    // Quan hệ: Job thuộc về 1 Category
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ApplicationManagerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EmployerManagerController;
 use App\Http\Controllers\Admin\ApplicationManagerController;
 
+require __DIR__.'/employer.php';
 // Hiển thị form đăng nhập
 Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('login');
 
@@ -74,18 +76,18 @@ Route::middleware('auth')->group(function () {
         ->name('user.recommend_job');
 });
 
-//EMPLOYER
-Route::middleware('auth')->group(function () {
-    Route::get('/employer/index', function () {
-        $user = auth()->user();
+// //EMPLOYER
+// Route::middleware('auth')->group(function () {
+//     Route::get('/employer/index', function () {
+//         $user = auth()->user();
 
-        if (!$user || $user->role !== 'employer') {
-            return redirect()->route('login')->with('error', 'Bạn không có quyền truy cập');
-        }
+//         if (!$user || $user->role !== 'employer') {
+//             return redirect()->route('login')->with('error', 'Bạn không có quyền truy cập');
+//         }
 
-        return view('employer.index', ['user' => $user]);
-    })->name('employer.dashboard');
-});
+//         return view('employer.index', ['user' => $user]);
+//     })->name('employer.dashboard');
+// });
 
 //ADMIN
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
