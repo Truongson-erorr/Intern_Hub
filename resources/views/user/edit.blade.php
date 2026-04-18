@@ -80,8 +80,7 @@
                                 type="tel" value="{{ old('phone', $user->phone) }}" />
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[0.6875rem] font-bold uppercase tracking-wider text-outline">Ngành nghề
-                                chính</label>
+                            <label class="text-[0.6875rem] font-bold uppercase tracking-wider text-outline">Đam mê / Lĩnh vực bạn quan tâm</label>
                             <input name="industry"
                                 class="w-full bg-transparent border-0 border-b-2 border-surface-container-highest focus:ring-0 focus:border-primary transition-all py-3 text-on-background font-medium"
                                 type="text" value="{{ old('industry', $user->industry) }}"
@@ -89,22 +88,35 @@
                         </div>
                     </div>
 
-                    {{-- Địa chỉ --}}
-                    <div class="space-y-2">
-                        <label class="text-[0.6875rem] font-bold uppercase tracking-wider text-outline">Địa chỉ</label>
-                        <input name="address"
-                            class="w-full bg-transparent border-0 border-b-2 border-surface-container-highest focus:ring-0 focus:border-primary transition-all py-3 text-on-background font-medium"
-                            type="text" value="{{ old('address', $user->address) }}" />
-                    </div>
+                    {{-- Kinh nghiệm + Lương mong muốn --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-                    {{-- Hồ sơ --}}
-                    <div class="space-y-2">
-                        <label class="text-[0.6875rem] font-bold uppercase tracking-wider text-outline">Hồ sơ</label>
-                        <textarea name="resume"
-                            class="w-full bg-surface-container-low border-0 focus:ring-2 focus:ring-primary/20 rounded-xl p-4 text-on-background leading-[1.7] transition-all"
-                            placeholder="Giới thiệu ngắn gọn về kinh nghiệm và kỹ năng của bạn..." rows="5">{{ old('resume', $user->resume) }}</textarea>
-                    </div>
+                        {{-- EXPERIENCE --}}
+                        <div class="space-y-2">
+                            <label class="text-[0.6875rem] font-bold uppercase tracking-wider text-outline">
+                                Kinh nghiệm làm việc
+                            </label>
+                            <input name="experience"
+                                class="w-full bg-transparent border-0 border-b-2 border-surface-container-highest focus:ring-0 focus:border-primary transition-all py-3 text-on-background font-medium"
+                                type="text"
+                                value="{{ old('experience', $user->experience) }}"
+                                placeholder="VD: 2 năm Laravel / React / Backend" />
+                        </div>
 
+                        {{-- SALARY --}}
+                        <div class="space-y-2">
+                            <label class="text-[0.6875rem] font-bold uppercase tracking-wider text-outline">
+                                Mức lương mong muốn
+                            </label>
+                            <input name="expected_salary"
+                                class="w-full bg-transparent border-0 border-b-2 border-surface-container-highest focus:ring-0 focus:border-primary transition-all py-3 text-on-background font-medium"
+                                type="text"
+                                value="{{ old('expected_salary', $user->expected_salary) }}"
+                                placeholder="VD: 10 - 15 triệu / tháng" />
+                        </div>
+
+                    </div>
+                
                     {{-- Action Buttons --}}
                     <div class="flex items-center justify-end gap-6 pt-8">
                         <a href="{{ url('user/trangchu') }}"

@@ -76,32 +76,75 @@
                     <div class="lg:col-span-2 space-y-8">
                         {{-- Thông tin liên hệ --}}
                         <div class="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100">
+
                             <div class="mb-10">
-                                <h2 class="font-calistoga text-2xl text-slate-900">Thông Tin Liên Hệ</h2>
+                                <h2 class="font-calistoga text-2xl text-slate-900">Thông Tin Cá Nhân</h2>
                                 <div class="w-12 h-1 electric-gradient rounded-full mt-2"></div>
                             </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-8">
+
+                                {{-- EMAIL --}}
                                 <div class="space-y-1">
-                                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">Địa chỉ Email</p>
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+                                        Địa chỉ Email
+                                    </p>
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-primary">mail</span>
                                         <p class="text-slate-800 font-medium">{{ $user->email }}</p>
                                     </div>
                                 </div>
+
+                                {{-- PHONE --}}
                                 <div class="space-y-1">
-                                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">Số điện thoại</p>
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+                                        Số điện thoại
+                                    </p>
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-primary">call</span>
                                         <p class="text-slate-800 font-medium">{{ $user->phone ?? 'Chưa cập nhật' }}</p>
                                     </div>
                                 </div>
-                                <div class="md:col-span-2 space-y-1">
-                                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">Địa chỉ hiện tại</p>
-                                    <div class="flex items-start gap-3">
-                                        <span class="material-symbols-outlined text-primary mt-0.5">location_on</span>
-                                        <p class="text-slate-800 font-medium leading-relaxed">{{ $user->address ?? 'Chưa cập nhật địa chỉ' }}</p>
+
+                                {{-- EXPERIENCE --}}
+                                <div class="space-y-1">
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+                                        Kinh nghiệm làm việc
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-primary">work_history</span>
+                                        <p class="text-slate-800 font-medium">
+                                            {{ $user->experience ?? 'Chưa cập nhật' }}
+                                        </p>
                                     </div>
                                 </div>
+
+                                {{-- SALARY --}}
+                                <div class="space-y-1">
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+                                        Mức lương mong muốn
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-primary">payments</span>
+                                        <p class="text-slate-800 font-medium">
+                                            {{ $user->expected_salary ?? 'Chưa cập nhật' }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {{-- INDUSTRY --}}
+                                <div class="space-y-1">
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+                                        Lĩnh vực chuyên môn
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-primary">work</span>
+                                        <p class="text-slate-800 font-medium">
+                                            {{ $user->industry ?? 'Chưa cập nhật' }}
+                                        </p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -171,28 +214,7 @@
                         </div>
                     </div>
                 </div>
-
-                {{-- Mobile Bottom Navigation (tùy chọn, có thể ẩn nếu layout đã có) --}}
-                {{-- 
-                <nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center pb-safe pt-2 px-4 bg-white/90 backdrop-blur-md shadow-[0_-8px_30px_rgb(0,0,0,0.04)] z-50 border-t border-slate-100">
-                    <a class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 transition-all" href="{{ url('/') }}">
-                        <span class="material-symbols-outlined">home</span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
-                    </a>
-                    <a class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 transition-all" href="{{ route('user.timviec') }}">
-                        <span class="material-symbols-outlined">work</span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Jobs</span>
-                    </a>
-                    <a class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 transition-all" href="#">
-                        <span class="material-symbols-outlined">assignment_turned_in</span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Applied</span>
-                    </a>
-                    <a class="flex flex-col items-center justify-center text-primary px-4 py-1.5 transition-all" href="{{ route('user.profile.show') }}">
-                        <span class="material-symbols-outlined filled">person</span>
-                        <span class="text-[10px] font-bold uppercase tracking-widest mt-1 border-b-2 border-primary">Profile</span>
-                    </a>
-                </nav>
-                --}}
+                
             @else
                 {{-- Chưa đăng nhập --}}
                 <div class="bg-white rounded-[2rem] p-12 text-center shadow-sm border border-slate-100 max-w-md mx-auto">

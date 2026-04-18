@@ -59,14 +59,14 @@ class AuthController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->stateless()->user();
+            $googleUser = Socialite::driver('google')->user();
 
-            $user = User::where('email', $googleUser->email)->first();
+            $user = User::where('email', $googleUser->getEmail())->first();
 
             if (!$user) {
                 $user = User::create([
-                    'name' => $googleUser->name,
-                    'email' => $googleUser->email,
+                    'name' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
                     'password' => Hash::make(Str::random(16)), // mật khẩu ngẫu nhiên
                     'role' => 'user',
                 ]);

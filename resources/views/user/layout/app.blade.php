@@ -126,10 +126,12 @@
             <a href="{{ url('user/trangchu') }}" class="text-2xl font-['Calistoga'] text-blue-600">InternHub</a>
             {{-- Desktop Links --}}
             <div class="hidden md:flex items-center space-x-8">
+                <a class="{{ request()->routeIs('user.trangchu') ? 'text-blue-600 font-medium border-b-2 border-blue-600 pb-1' : 'text-slate-600 hover:text-blue-500 transition-colors' }} font-['Be_Vietnam_Pro'] leading-[1.7] tracking-tight"
+                href="{{ route('user.trangchu') }}">
+                Trang Chủ
+                </a>
                 <a class="{{ request()->routeIs('user.timviec') ? 'text-blue-600 font-medium border-b-2 border-blue-600 pb-1' : 'text-slate-600 hover:text-blue-500 transition-colors' }} font-['Be_Vietnam_Pro'] leading-[1.7] tracking-tight"
                     href="{{ route('user.timviec') }}">Tìm Việc</a>
-                <a class="text-slate-600 hover:text-blue-500 transition-colors font-['Be_Vietnam_Pro'] leading-[1.7] tracking-tight"
-                    href="#">Trang Chủ</a>
                 <a class="text-slate-600 hover:text-blue-500 transition-colors font-['Be_Vietnam_Pro'] leading-[1.7] tracking-tight"
                     href="#">Giới Thiệu</a>
                 <a class="text-slate-600 hover:text-blue-500 transition-colors font-['Be_Vietnam_Pro'] leading-[1.7] tracking-tight"
@@ -190,24 +192,22 @@
                                 <a href="{{ route('user.my_applications') }}"
                                     class="flex items-center gap-3 px-5 py-3 hover:bg-slate-100 transition">
                                     <span class="material-symbols-outlined text-base">description</span>
-                                    <span>Đơn ứng tuyển</span>
+                                    <span>Đơn đã ứng tuyển</span>
                                 </a>
 
                                 <a href="{{ route('user.recommend_job') }}"
                                     class="flex items-center justify-between gap-3 px-5 py-3 hover:bg-slate-100 transition">
                                     <div class="flex items-center gap-3">
                                         <span class="material-symbols-outlined text-base">recommend</span>
-                                        <span>Việc làm đề xuất</span>
+                                        <span>Việc làm gợi ý</span>
                                     </div>
 
                                     <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
                                         AI
                                     </span>
                                 </a>
-
                                 {{-- Divider --}}
                                 <div class="my-2 border-t"></div>
-
                                 {{-- Logout --}}
                                 <a href="{{ route('authen.logout') }}"
                                     class="flex items-center gap-3 px-5 py-3 text-red-500 hover:bg-red-50 transition">

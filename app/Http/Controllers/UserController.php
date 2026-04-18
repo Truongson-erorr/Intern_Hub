@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\JobApplication;
 use App\Models\Job;
-use App\Models\Category;
 
 class UserController extends Controller
 {
@@ -34,6 +33,10 @@ class UserController extends Controller
             'resume' => 'nullable|string|max:255',
             'desired_position' => 'nullable|string|max:100',
             'industry' => 'nullable|string|max:100',
+            'experience' => 'nullable|string',
+            'expected_salary' => 'nullable|string|max:100',
+            'skills' => 'nullable|string',
+            'education' => 'nullable|string|max:255',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -43,6 +46,10 @@ class UserController extends Controller
         $user->resume = $request->resume;
         $user->desired_position = $request->desired_position;
         $user->industry = $request->industry;
+        $user->experience = $request->experience;
+        $user->expected_salary = $request->expected_salary;
+        $user->skills = $request->skills;
+        $user->education = $request->education;
 
         // upload avatar nếu có
         if ($request->hasFile('avatar')) {
@@ -69,22 +76,33 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user->industry) {
+        if (
+            !$user->industry &&
+            !$user->experience &&
+            !$user->expected_salary
+        ) {
             return view('user.recommend_job', [
-                'warning' => 'Vui lòng cập nhật ngành nghề chính để hệ thống gợi ý việc làm phù hợp.',
                 'recommendedJobs' => collect()
             ]);
         }
 
-        $category = Category::where('name', $user->industry)->first();
+        $jobs = Job::query()
+            ->where('title', 'like', "%{$user->industry}%")
+            ->orWhere('description', 'like', "%{$user->industry}%")
+            ->take(20) 
+            ->get();
 
-        if ($category) {
-            $recommendedJobs = Job::where('category_id', $category->id)
-                ->orderBy('created_at', 'desc')
-                ->take(10)
-                ->get();
-        } else {
-            $recommendedJobs = collect();
+        $suggestedIds = \App\Services\GeminiService::suggestJobs(
+            $user->industry ?? '',
+            $user->experience ?? '',
+            $user->expected_salary ?? '',
+            $jobs
+        );
+
+        $recommendedJobs = collect();
+
+        if (!empty($suggestedIds)) {
+            $recommendedJobs = Job::whereIn('id', $suggestedIds)->get();
         }
 
         return view('user.recommend_job', compact('recommendedJobs'));

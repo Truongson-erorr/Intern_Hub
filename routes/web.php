@@ -6,13 +6,14 @@ use App\Http\Controllers\Admin\{
     CategoryController,
     EmployerManagerController,
     JobManagerController,
-    UserManagerController
+    UserManagerController,
 };
 use App\Http\Controllers\{
     AuthController,
     JobApplicationController,
     JobController,
-    UserController
+    UserController,
+    AIRecommendationController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -76,7 +77,9 @@ Route::middleware('auth')->group(function () {
     });
 
     // Job Recommendations
-    Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])->name('user.recommend_job');
+        // Job Recommendations
+    Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])
+    ->name('user.recommend_job');
 });
 
 /*
