@@ -77,7 +77,7 @@ class AuthController extends Controller
             return redirect()->route('user.trangchu')
                 ->with('success', 'Đăng nhập thành công bằng Google!');
         } catch (\Exception $e) {
-            return redirect()->route('login')
+            return redirect()->route('authen.login')
                 ->with('error', 'Đăng nhập Google thất bại.');
         }
     }
@@ -113,13 +113,13 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Đăng xuất thành công!');
+        return redirect()->route('authen.login')->with('success', 'Đăng xuất thành công!');
     }
 
     public function updateAvatar(Request $request)
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập trước!');
+            return redirect()->route('authen.login')->with('error', 'Vui lòng đăng nhập trước!');
         }
 
         $request->validate([
@@ -188,7 +188,7 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return redirect()->route('login')
+            return redirect()->route('authen.login')
                 ->with('success', 'Đăng ký thành công! Vui lòng chờ tài khoản của bạn được kích hoạt.');
         } catch (\Exception $e) {
             DB::rollBack();

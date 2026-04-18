@@ -3,64 +3,54 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Employer\AccountController;
 use App\Http\Controllers\Employer\CandidateController;
+use App\Http\Controllers\Employer\DashboardController;
+use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Employer\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Employer\JobController as EmployerJobController;
-use App\Http\Controllers\Employer\DashboardController;
 
-// Gom nhóm tất cả route của Employer vào đây
-// Middleware 'auth': Bắt buộc đăng nhập
-// Middleware 'employer': Bắt buộc phải là Role Employer (cái ta vừa tạo)
+/*
+|--------------------------------------------------------------------------
+| Employer Routes
+|--------------------------------------------------------------------------
+*/
 
-// Route đăng ký Employer (KHÔNG auth)
+// Public Employer Routes (Không cần đăng nhập)
 Route::prefix('employer')->name('employer.')->group(function () {
-
-    Route::get('/register', [AuthController::class, 'showRegisterEmployerForm'])
-        ->name('register');
-
-    Route::post('/register', [AuthController::class, 'registerEmployer'])
-        ->name('register.submit');
+    Route::get('/register', [AuthController::class, 'showRegisterEmployerForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'registerEmployer'])->name('register.submit');
 });
 
-// Route Employer sau khi đăng nhập
-Route::prefix('employer')->name('employer.')->middleware(['auth', 'employer'])->group(function () {
-
-    // 1. Dashboard
-    // URL: /employer/dashboard
-    // Name: employer.dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // 2. Route manage job of employer
-    Route::prefix('jobs')->name('jobs.')->group(function () {
-        Route::get('/', [EmployerJobController::class, 'index'])->name('index');
-        Route::get('/create', [EmployerJobController::class, 'create'])->name('create');
-        Route::post('/store', [EmployerJobController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [EmployerJobController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [EmployerJobController::class, 'update'])->name('update');
-        Route::delete('/delete/{id}', [EmployerJobController::class, 'destroy'])->name('destroy');
+// Protected Employer Routes (Yêu cầu đăng nhập + role employer)
+Route::prefix('employer')
+    ->name('employer.')
+    ->middleware(['auth', 'employer'])
+    ->group(function () {
+        
+        // Dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        
+        // Job Management (Sử dụng resource route cho CRUD chuẩn)
+        Route::resource('jobs', JobController::class)->except(['show']);
+        
+        // Profile Management
+        Route::prefix('profile')->name('profile.')->group(function () {
+            Route::get('/', [ProfileController::class, 'index'])->name('index');
+            Route::post('/update', [ProfileController::class, 'update'])->name('update');
+        });
+        
+        // Candidate Management
+        Route::prefix('candidates')->name('candidates.')->group(function () {
+            Route::get('/', [CandidateController::class, 'index'])->name('index');
+            Route::get('/{id}', [CandidateController::class, 'show'])->name('show');
+            Route::post('/{id}/status', [CandidateController::class, 'updateStatus'])->name('updateStatus');
+            Route::get('/{id}/download', [CandidateController::class, 'downloadCv'])->name('download');
+            Route::get('/{id}/view-cv', [CandidateController::class, 'viewCv'])->name('view-cv');
+        });
+        
+        // Account Management
+        Route::prefix('account')->name('account.')->group(function () {
+            Route::get('/', [AccountController::class, 'index'])->name('index');
+            Route::post('/update-info', [AccountController::class, 'updateInfo'])->name('updateInfo');
+            Route::post('/change-password', [AccountController::class, 'changePassword'])->name('changePassword');
+        });
     });
-
-    // 3. Route manage profile
-    Route::prefix('profile')->name('profile.')->group(function () {
-        // Hiển thị form
-        Route::get('/', [ProfileController::class, 'index'])->name('index');
-        // Xử lý update (POST)
-        Route::post('/update', [ProfileController::class, 'update'])->name('update');
-    });
-
-    // 4. Route for candidates
-    Route::prefix('candidates')->name('candidates.')->group(function () {
-        Route::get('/', [CandidateController::class, 'index'])->name('index');
-        Route::get('/detail/{id}', [CandidateController::class, 'show'])->name('show');
-        Route::post('/update-status/{id}', [CandidateController::class, 'updateStatus'])->name('updateStatus');
-        Route::get('/download/{id}', [CandidateController::class, 'downloadCv'])->name('download');
-        Route::get('/view-cv/{id}', [CandidateController::class, 'viewCv'])->name('view-cv');
-    });
-
-    // 5. Route for employer account
-    Route::prefix('account')->name('account.')->group(function() {
-    Route::get('/', [AccountController::class, 'index'])->name('index');
-    Route::post('/update-info', [AccountController::class, 'updateInfo'])->name('updateInfo');
-    Route::post('/change-password', [AccountController::class, 'changePassword'])->name('changePassword');
-});
-});

@@ -1,128 +1,123 @@
 <?php
 
-use App\Http\Controllers\Admin\ApplicationManagerController;
+use App\Http\Controllers\Admin\{
+    AdminController,
+    ApplicationManagerController,
+    CategoryController,
+    EmployerManagerController,
+    JobManagerController,
+    UserManagerController
+};
+use App\Http\Controllers\{
+    AuthController,
+    JobApplicationController,
+    JobController,
+    UserController
+};
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\JobApplicationController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\UserManagerController;
-use App\Http\Controllers\Admin\JobManagerController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\EmployerManagerController;
 
-require __DIR__.'/employer.php';
-// Hiển thị form đăng nhập
-Route::get('authen/login', [AuthController::class, 'showLoginForm'])->name('login');
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 
-// Xử lý gửi form đăng nhập (POST)
-Route::post('authen/login', [AuthController::class, 'login']);
+Route::get('/', fn() => view('user.trangchu'))->name('home');
 
-// Đăng xuất tài khoản
-Route::get('authen/logout', [AuthController::class, 'logout'])->name('authen.logout');
-
-// Hiển thị form đăng ký
-Route::get('authen/register', [AuthController::class, 'showRegisterForm']);
-
-// Xử lý gửi form đăng ký (POST)
-Route::post('authen/register', [AuthController::class, 'register']);
-
-// Cách 1: render trực tiếp view (ít khi dùng nếu cần dữ liệu động)
-Route::get('user/trangchu', function () {
-    return view('user.trangchu');
+// Authentication
+Route::prefix('authen')->name('authen.')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle']);
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+// Google OAuth
+Route::prefix('auth/google')->name('auth.google.')->group(function () {
+    Route::get('/redirect', [AuthController::class, 'redirectToGoogle'])->name('redirect');
+    Route::get('/callback', [AuthController::class, 'handleGoogleCallback'])->name('callback');
+});
 
-// Cách 2: render qua controller — hợp lý hơn vì có thể lấy dữ liệu từ database
-Route::get('/user/trangchu', [JobController::class, 'index'])->name('user.trangchu');
+// Jobs (Public)
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/trangchu', [JobController::class, 'index'])->name('trangchu');
+    Route::get('/timviec', [JobController::class, 'timviec'])->name('timviec');
+});
 
-// Tìm việc & chi tiết job
-Route::get('/user/timviec', [JobController::class, 'timviec']);
 Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
 
-// Profile 
-Route::get('/user/profile', function () {
-    return view('user.profile');
-})->name('user.profile');
+/*
+|--------------------------------------------------------------------------
+| Authenticated User Routes
+|--------------------------------------------------------------------------
+*/
 
-// USER cần đăng nhập
 Route::middleware('auth')->group(function () {
-
+    
     // Profile
-    Route::get('/user/profile/edit', [UserController::class, 'edit'])->name('user.profile.edit');
-    Route::post('/user/profile/update', [UserController::class, 'update'])->name('user.profile.update');
-
-    // Ứng tuyển
-    Route::post('/jobs/apply/{id}', [JobApplicationController::class, 'store'])->name('jobs.apply');
-
-    // Việc đã ứng tuyển
-    Route::get('/user/my-applications', [UserController::class, 'myApplications'])
-        ->name('user.my_applications');
-
-    // Saved jobs
-    Route::post('/jobs/{id}/save', [JobController::class, 'saveJob'])->name('jobs.save');
-    Route::delete('/jobs/{id}/unsave', [JobController::class, 'unsaveJob'])->name('jobs.unsave');
-    Route::get('/saved-jobs', [JobController::class, 'savedJobs'])->name('user.saved');
-
-    // Gợi ý việc làm
-    Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])
-        ->name('user.recommend_job');
+    Route::prefix('user/profile')->name('user.profile.')->group(function () {
+        Route::get('/', fn() => view('user.profile'))->name('index');
+        Route::get('/edit', [UserController::class, 'edit'])->name('edit');
+        Route::post('/update', [UserController::class, 'update'])->name('update');
+    });
+    
+    // Job Applications
+    Route::post('/jobs/{id}/apply', [JobApplicationController::class, 'store'])->name('jobs.apply');
+    Route::get('/user/my-applications', [UserController::class, 'myApplications'])->name('user.my_applications');
+    
+    
+    // Saved Jobs
+    Route::prefix('user/saved')->name('user.saved.')->group(function () {
+        Route::get('/', [JobController::class, 'savedJobs'])->name('index');
+        Route::delete('/{id}', [JobController::class, 'unsave'])->name('destroy');
+        Route::post('/{id}', [JobController::class, 'saveJob'])->name('store');
+        Route::delete('/{id}', [JobController::class, 'unsaveJob'])->name('destroy');
+    });
+    
+    // Job Recommendations
+    Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])->name('user.recommend_job');
 });
 
-// //EMPLOYER
-// Route::middleware('auth')->group(function () {
-//     Route::get('/employer/index', function () {
-//         $user = auth()->user();
+/*
+|--------------------------------------------------------------------------
+| Employer Routes
+|--------------------------------------------------------------------------
+*/
 
-//         if (!$user || $user->role !== 'employer') {
-//             return redirect()->route('login')->with('error', 'Bạn không có quyền truy cập');
-//         }
+require __DIR__ . '/employer.php';
 
-//         return view('employer.index', ['user' => $user]);
-//     })->name('employer.dashboard');
-// });
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
 
-//ADMIN
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    
     // Dashboard
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-
-    // User
-    Route::get('/users', [UserManagerController::class, 'index'])->name('user.manager');
-    Route::get('/users/{id}/edit', [UserManagerController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{id}/update', [UserManagerController::class, 'update'])->name('users.update');
-    Route::delete('/users/{id}', [UserManagerController::class, 'delete'])->name('users.delete');
-
-    // Job
-    Route::get('/jobs', [JobManagerController::class, 'index'])->name('job.manager');
-    Route::post('/jobs', [JobManagerController::class, 'store'])->name('jobs.store');
-    Route::get('/jobs/{id}/edit', [JobManagerController::class, 'edit'])->name('jobs.edit');
-    Route::put('/jobs/{id}/update', [JobManagerController::class, 'update'])->name('jobs.update');
-    Route::delete('/jobs/{id}', [JobManagerController::class, 'deleteJob'])->name('jobs.delete');
-    Route::post('/jobs/{id}/approve', [JobManagerController::class, 'approveJob'])->name('jobs.approve');
-    Route::patch('/jobs/{id}/reject', [JobManagerController::class, 'rejectJob'])->name('jobs.reject');
-
-    // Application manager 
-    Route::get('/application_job_manager', [ApplicationManagerController::class, 'index'])
-        ->name('application_job');
-
-    // Category
-    Route::get('/categories', [CategoryController::class, 'index'])->name('category.manager');
-    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-    Route::put('/categories/{id}/update', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
-
-    // Employer
-    Route::get('/employers', [EmployerManagerController::class, 'index'])->name('employer.manager');
-    Route::post('/employers', [EmployerManagerController::class, 'store'])->name('employers.store');
-    Route::get('/employers/{id}/edit', [EmployerManagerController::class, 'edit'])->name('employers.edit');
-    Route::put('/employers/{id}/update', [EmployerManagerController::class, 'update'])->name('employers.update');
-    Route::delete('/employers/{id}', [EmployerManagerController::class, 'delete'])->name('employers.delete');
-
+    
+    // User Management
+    Route::resource('users', UserManagerController::class)->except(['show', 'create']);
+    
+    // Job Management (Admin)
+    Route::prefix('jobs')->name('jobs.')->group(function () {
+        Route::get('/', [JobManagerController::class, 'index'])->name('index');
+        Route::post('/', [JobManagerController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [JobManagerController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [JobManagerController::class, 'update'])->name('update');
+        Route::delete('/{id}', [JobManagerController::class, 'deleteJob'])->name('delete');
+        Route::post('/{id}/approve', [JobManagerController::class, 'approveJob'])->name('approve');
+        Route::patch('/{id}/reject', [JobManagerController::class, 'rejectJob'])->name('reject');
+    });
+    
+    // Application Management
+    Route::get('/applications', [ApplicationManagerController::class, 'index'])->name('applications.index');
+    
+    // Category Management
+    Route::resource('categories', CategoryController::class)->except(['show', 'create']);
+    
+    // Employer Management (Admin)
+    Route::resource('employers', EmployerManagerController::class)->except(['show', 'create']);
 });
-

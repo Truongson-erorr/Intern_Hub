@@ -1,379 +1,613 @@
-@extends('user.layout.index')
-@section('title', 'Chi tiết công việc')
+@extends('user.layout.app')
 
-@section('content')
+@section('title', $job->title . ' - Intern.hub')
 
-    {{-- Hero Header giống trang chủ --}}
-
-
+@push('styles')
     <style>
-        .hero-header {
-            background: linear-gradient(135deg, #5cb3ffff 0%, #fe008cff 100%);
-            padding: 80px 0;
-            color: #fff;
-            border-radius: 20px;
-            margin-bottom: 40px;
-        }
-
-        .hero-header h1 {
-            font-weight: 700;
-        }
-
-        .hero-header p {
-            font-size: 18px;
-        }
-
-        .job-container {
-            gap: 30px;
-        }
-
-        .job-detail {
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .job-detail:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .job-detail h2 {
-            font-weight: 1000;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .job-detail .badge {
-            border-radius: 12px;
-            padding: 6px 14px;
-            font-size: 14px;
-            margin-right: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .job-detail .badge:hover {
-            transform: scale(1.05);
-        }
-
-        .badge-salary {
-            background: #f0f9ff;
-            color: #007bff;
-            font-weight: 500;
-        }
-
-        .badge-exp {
-            background: #fff8e6;
-            color: #ff9800;
-            font-weight: 500;
-        }
-
-        .apply-btn {
-            display: inline-block;
-            padding: 12px 20px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #ff36deff, #0042c5ff);
-            color: #fff;
-            font-weight: 500;
-            text-decoration: none;
+        /* Claymorphism & Custom Styles for Job Detail */
+        .clay-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 30, 60, 0.08), inset 0 1px 4px rgba(255, 255, 255, 0.6);
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .apply-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 14px rgba(0, 86, 179, 0.3);
+        .clay-recessed {
+            background: rgba(243, 243, 243, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.02), inset 0 2px 4px rgba(0, 0, 0, 0.04);
         }
 
-        .job-sidebar {
-            flex: 1;
-            max-width: 400px;
+        .clay-btn-primary {
+            background: linear-gradient(135deg, #0052FF 0%, #4D7CFF 100%);
+            box-shadow: 0 4px 12px rgba(0, 82, 255, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1);
         }
 
-        .sidebar-box {
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+        .hover-lift:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -6px rgba(0, 50, 100, 0.15), inset 0 1px 4px rgba(255, 255, 255, 0.5);
         }
 
-        .sidebar-box:hover {
-            transform: translateY(-5px);
+        .press-scale:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 8px rgba(0, 82, 255, 0.2);
         }
 
-        .sidebar-box h4 {
-            font-size: 18px;
-            margin-bottom: 12px;
-            color: #444;
-        }
-
-        .sidebar-box ul {
-            padding-left: 18px;
-            margin: 0;
-        }
-
-        .sidebar-box li {
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .related-job h5 a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .related-job h5 a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 992px) {
-            .job-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .job-sidebar {
-                max-width: 100%;
-            }
-
-            .job-detail {
-                max-width: 100%;
-            }
-
-            .hero-header input {
-                width: 100% !important;
-            }
+        /* Đảm bảo modal hiển thị đúng */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
         }
     </style>
+@endpush
 
-    <div class="hero-header mb-5">
-        <div class="container text-center">
-            <h1 class="mb-4">Tìm việc IT mơ ước của bạn ngay hôm nay</h1>
-            <p class="mb-5">Kết nối với hàng ngàn công ty công nghệ hàng đầu tại Việt Nam</p>
-            <div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
-                <form method="GET" action="{{ url('user/timviec') }}" class="d-flex">
-                    <input type="text" name="keyword" class="form-control rounded-pill me-2 px-4"
-                        placeholder="Nhập công việc..." style="width: 600px; height: 60px; font-size: 16px;">
-                    <button type="submit" class="btn btn-light rounded-pill px-4 fw-bold"
-                        style="background: linear-gradient(135deg, #5cb3ff 0%, #fe008c 100%); color: #fff;">
+@section('content')
+    <main class="max-w-7xl mx-auto px-6 lg:px-8 pt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+
+        {{-- Hero Search Section (nằm trên cùng) --}}
+        <section class="lg:col-span-12 mb-6">
+            <div class="clay-recessed bg-surface-container-low rounded-2xl p-4 flex flex-col md:flex-row gap-4 items-center">
+                <form method="GET" action="{{ route('user.timviec') }}" class="contents">
+                    <div class="flex-1 flex items-center gap-3 px-4 py-2">
+                        <span class="material-symbols-outlined text-primary">search</span>
+                        <input name="keyword"
+                            class="bg-transparent border-none focus:ring-0 w-full font-medium text-on-surface placeholder:text-outline-variant"
+                            placeholder="Tìm kiếm công ty hoặc vị trí..." type="text" value="{{ request('keyword') }}" />
+                    </div>
+                    <div class="w-px h-8 bg-outline-variant/30 hidden md:block"></div>
+                    <div class="flex-1 flex items-center gap-3 px-4 py-2">
+                        <span class="material-symbols-outlined text-primary">location_on</span>
+                        <select name="location"
+                            class="bg-transparent border-none focus:ring-0 w-full font-medium text-on-surface appearance-none cursor-pointer">
+                            <option value="">Toàn Việt Nam</option>
+                            <option value="Ha Noi" {{ request('location') == 'Ha Noi' ? 'selected' : '' }}>Hà Nội</option>
+                            <option value="Ho Chi Minh" {{ request('location') == 'Ho Chi Minh' ? 'selected' : '' }}>TP. Hồ
+                                Chí Minh</option>
+                            <option value="Da Nang" {{ request('location') == 'Da Nang' ? 'selected' : '' }}>Đà Nẵng
+                            </option>
+                        </select>
+                    </div>
+                    <button type="submit"
+                        class="clay-btn-primary text-white font-bold py-3 px-10 rounded-xl hover-lift press-scale">
                         Tìm kiếm
                     </button>
+                </form>
+            </div>
+        </section>
+
+        {{-- Main Content (Left Column) --}}
+        <div class="lg:col-span-8 space-y-8">
+
+            {{-- Job Detail Main Card --}}
+            <article
+                class="clay-card relative overflow-hidden rounded-3xl p-6 md:p-8
+                bg-gradient-to-br from-white via-surface-container-lowest to-surface-container
+                shadow-[0px_25px_60px_rgba(46,46,53,0.12)]
+                border border-white/60 backdrop-blur-xl">
+
+                <div class="absolute -top-10 -right-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-40 h-40 bg-secondary/10 rounded-full blur-2xl"></div>
+
+                <header class="mb-8">
+                    <div class="flex justify-between items-start mb-6">
+                        {{-- Company Logo --}}
+                        <div
+                            class="w-16 h-16 md:w-20 md:h-20 rounded-xl clay-card overflow-hidden bg-surface-container flex items-center justify-center shrink-0">
+                            @if ($job->employer->company_logo ?? false)
+                                <img class="w-full h-full object-cover" src="{{ $job->employer->company_logo }}"
+                                    alt="{{ $job->employer->company_name ?? 'Company' }}" />
+                            @else
+                                <span
+                                    class="text-2xl md:text-3xl font-black text-primary">{{ strtoupper(substr($job->employer->company_name ?? 'C', 0, 2)) }}</span>
+                            @endif
+                        </div>
+
+                        <div class="flex gap-2 md:gap-3">
+                            {{-- Bookmark Button --}}
+                            <form action="{{ route('user.saved.store', $job->id) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit"
+                                    class="p-3 clay-card bg-surface-container-lowest text-primary rounded-xl hover-lift press-scale">
+                                    <span class="material-symbols-outlined">bookmark</span>
+                                </button>
+                            </form>
+
+                            {{-- Share Button --}}
+                            <button
+                                class="p-3 clay-card bg-surface-container-lowest text-primary rounded-xl hover-lift press-scale"
+                                onclick="openShareModal()">
+                                <span class="material-symbols-outlined">share</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <h1
+                        class="text-3xl md:text-4xl lg:text-5xl font-black font-headline text-on-surface tracking-tight mb-4">
+                        {{ $job->title }}</h1>
+
+                    <div class="flex flex-wrap gap-2 md:gap-3 mt-6">
+                        <span
+                            class="clay-card bg-surface-container-low px-4 md:px-5 py-2 rounded-full text-primary font-bold flex items-center gap-2 text-sm md:text-base">
+                            <span class="material-symbols-outlined text-[18px]">payments</span> {{ $job->salary }}
+                        </span>
+                        <span
+                            class="clay-card bg-surface-container-low px-4 md:px-5 py-2 rounded-full text-secondary font-bold flex items-center gap-2 text-sm md:text-base">
+                            <span class="material-symbols-outlined text-[18px]">schedule</span>
+                            {{ $job->work_time ?? 'Full-time' }}
+                        </span>
+                        <span
+                            class="clay-card bg-surface-container-low px-4 md:px-5 py-2 rounded-full text-on-surface-variant font-bold flex items-center gap-2 text-sm md:text-base">
+                            <span class="material-symbols-outlined text-[18px]">location_on</span> {{ $job->location }}
+                        </span>
+                        <span
+                            class="clay-card bg-surface-container-low px-4 md:px-5 py-2 rounded-full text-on-surface-variant font-bold flex items-center gap-2 text-sm md:text-base">
+                            <span class="material-symbols-outlined text-[18px]">hourglass_top</span> Hạn:
+                            {{ $job->deadline }}
+                        </span>
+                    </div>
+                </header>
+
+                <div class="space-y-10">
+                    {{-- Job Description --}}
+                    <section>
+                        <h3
+                            class="text-xl md:text-2xl font-black font-headline text-on-surface mb-4 flex items-center gap-3">
+                            <span class="w-2 h-8 electric-gradient rounded-full"></span>
+                            Mô tả công việc
+                        </h3>
+                        <div
+                            class="text-base md:text-lg leading-relaxed text-on-surface-variant font-body whitespace-pre-line">
+                            {{ $job->description }}
+                        </div>
+                    </section>
+
+                    {{-- Requirements --}}
+                    @if ($job->candidate_requirements)
+                        <section>
+                            <h3
+                                class="text-xl md:text-2xl font-black font-headline text-on-surface mb-6 flex items-center gap-3">
+                                <span class="w-2 h-8 electric-gradient rounded-full"></span>
+                                Yêu cầu ứng viên
+                            </h3>
+                            <ul class="space-y-4">
+                                @foreach (explode("\n", $job->candidate_requirements) as $req)
+                                    @php
+                                        $req = trim($req);
+                                        if (substr($req, 0, 1) === '-') {
+                                            $req = ltrim($req, '- ');
+                                        }
+                                    @endphp
+                                    @if ($req)
+                                        <li class="flex items-start gap-4">
+                                            <span
+                                                class="material-symbols-outlined text-primary mt-1 shrink-0">check_circle</span>
+                                            <span
+                                                class="text-base md:text-lg text-on-surface-variant">{{ $req }}</span>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </section>
+                    @endif
+
+                    {{-- Benefits & Degree --}}
+                    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @if ($job->benefits)
+                            <div class="clay-card bg-primary/5 p-6 rounded-xl">
+                                <h4 class="font-bold text-primary mb-3 flex items-center gap-2">
+                                    <span class="material-symbols-outlined">volunteer_activism</span> Quyền lợi
+                                </h4>
+                                <ul class="text-sm text-on-surface-variant space-y-2">
+                                    @foreach (explode("\n", $job->benefits) as $benefit)
+                                        @php
+                                            $benefit = trim($benefit);
+                                            if (substr($benefit, 0, 1) === '-') {
+                                                $benefit = ltrim($benefit, '- ');
+                                            }
+                                        @endphp
+                                        @if ($benefit)
+                                            <li class="flex items-start gap-2">
+                                                <span class="text-primary">•</span>
+                                                <span>{{ $benefit }}</span>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @if ($job->degree_requirements)
+                            <div class="clay-card bg-secondary/5 p-6 rounded-xl">
+                                <h4 class="font-bold text-secondary mb-3 flex items-center gap-2">
+                                    <span class="material-symbols-outlined">school</span> Yêu cầu bằng cấp
+                                </h4>
+                                <p class="text-sm text-on-surface-variant">{{ $job->degree_requirements }}</p>
+                            </div>
+                        @endif
+                    </section>
+
+                    {{-- Additional Info --}}
+                    <section
+                        class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm bg-surface-container-low/30 p-6 rounded-xl">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">business</span>
+                            <span class="text-on-surface-variant"><strong>Địa điểm làm việc:</strong>
+                                {{ $job->work_location }}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">attach_money</span>
+                            <span class="text-on-surface-variant"><strong>Thu nhập:</strong>
+                                {{ $job->income ?? $job->salary }}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">mail</span>
+                            <span class="text-on-surface-variant"><strong>Cách thức ứng tuyển:</strong>
+                                {{ $job->application_method }}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary">badge</span>
+                            <span class="text-on-surface-variant"><strong>Kinh nghiệm:</strong> {{ $job->experience }}
+                                năm</span>
+                        </div>
+                    </section>
+                </div>
+
+                {{-- Footer Buttons --}}
+                <footer class="mt-12 pt-8 border-t border-outline-variant/20 flex flex-col sm:flex-row gap-4">
+                    <button
+                        class="clay-btn-primary flex-1 py-4 md:py-5 text-white font-black text-lg md:text-xl rounded-xl hover-lift press-scale transition-all duration-300"
+                        onclick="openApplyModal()">
+                        <span class="flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">send</span>
+                            Ứng tuyển ngay
+                        </span>
+                    </button>
+                    <form action="{{ route('user.saved.store', $job->id) }}" method="POST" class="flex-1">
+                        @csrf
+                        <button type="submit"
+                            class="clay-card bg-surface-container-low w-full py-4 md:py-5 text-primary font-black text-lg md:text-xl rounded-xl hover-lift press-scale transition-all duration-300">
+                            <span class="flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">bookmark</span>
+                                Lưu công việc
+                            </span>
+                        </button>
+                    </form>
+                </footer>
+            </article>
+        </div>
+
+        {{-- Sidebar (Right Column) --}}
+        <aside class="lg:col-span-4 space-y-8">
+
+            {{-- Company Info Card --}}
+            <section
+                class="clay-card relative rounded-2xl p-6 overflow-hidden
+           bg-gradient-to-br from-white via-surface-container-lowest to-surface-container
+           shadow-[0px_20px_50px_rgba(46,46,53,0.10)]
+           border border-white/60 backdrop-blur-xl">
+
+                {{-- Glow background --}}
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+
+                <div class="relative z-10">
+                    <div class="flex items-center gap-4 mb-5">
+                        {{-- Logo --}}
+                        <div
+                            class="w-14 h-14 bg-white rounded-xl shadow-md overflow-hidden flex items-center justify-center shrink-0">
+                            @if ($job->employer->company_logo ?? false)
+                                <img class="w-full h-full object-cover" src="{{ $job->employer->company_logo }}"
+                                    alt="{{ $job->employer->company_name ?? 'Company' }}" />
+                            @else
+                                <span class="font-black text-primary text-xl">
+                                    {{ strtoupper(substr($job->employer->company_name ?? 'C', 0, 2)) }}
+                                </span>
+                            @endif
+                        </div>
+
+                        <div>
+                            <h4 class="font-black text-lg text-on-surface">
+                                {{ $job->employer->company_name ?? 'Chưa cập nhật' }}
+                            </h4>
+                            <p class="text-xs text-on-surface-variant">
+                                {{ $job->employer->industry ?? 'Công nghệ' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 text-sm">
+                        @if ($job->employer->website ?? false)
+                            <p class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-base">language</span>
+                                <a href="{{ $job->employer->website }}" target="_blank"
+                                    class="text-primary hover:underline truncate font-medium">
+                                    {{ $job->employer->website }}
+                                </a>
+                            </p>
+                        @endif
+
+                        @if ($job->employer->contact_email ?? false)
+                            <p class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-base">mail</span>
+                                <span class="text-on-surface-variant truncate">
+                                    {{ $job->employer->contact_email }}
+                                </span>
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            </section>
+
+            {{-- Interview Tips Card --}}
+            <section class="bg-inverse-surface text-inverse-on-surface rounded-2xl p-6 editorial-shadow">
+
+                <h4 class="text-white opacity-80 mb-5 flex items-center gap-2 text-lg">
+                    <span class="material-symbols-outlined">tips_and_updates</span>
+                    Mẹo phỏng vấn
+                </h4>
+
+                <div class="space-y-4">
+                    <div class="flex gap-3 items-start">
+                        <div
+                            class="w-7 h-7 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-sm">
+                            1
+                        </div>
+                        <p class="text-white opacity-80 text-sm text-on-surface leading-relaxed">
+                            Chuẩn bị kỹ hồ sơ và portfolio (nếu có)
+                        </p>
+                    </div>
+
+                    <div class="flex gap-3 items-start">
+                        <div
+                            class="w-7 h-7 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-sm">
+                            2
+                        </div>
+                        <p class="text-white opacity-80 text-sm text-on-surface leading-relaxed">
+                            Nghiên cứu kỹ về công ty và vị trí ứng tuyển
+                        </p>
+                    </div>
+
+                    <div class="flex gap-3 items-start">
+                        <div
+                            class="w-7 h-7 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-sm">
+                            3
+                        </div>
+                        <p class="text-white opacity-80 text-sm text-on-surface leading-relaxed">
+                            Ăn mặc lịch sự và đến đúng giờ
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {{-- Related Jobs --}}
+            @if (isset($relatedJobs) && count($relatedJobs) > 0)
+                <section>
+                    <h4 class="font-black text-on-surface mb-4">Việc làm liên quan</h4>
+                    <div class="space-y-4">
+                        @foreach ($relatedJobs as $related)
+                            <a href="{{ route('jobs.show', $related->id) }}" class="block">
+                                <div
+                                    class="clay-card bg-surface rounded-xl p-5 hover-lift cursor-pointer transition-all duration-300">
+                                    <h5 class="font-bold text-on-surface mb-1">{{ $related->title }}</h5>
+                                    <p class="text-xs text-on-surface-variant mb-3">{{ $related->location }}</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-primary font-bold text-sm">{{ $related->salary }}</span>
+                                        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+
+        </aside>
+    </main>
+
+    {{-- Apply Modal --}}
+    <div id="applyModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 py-8">
+            <div class="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity" aria-hidden="true"
+                onclick="closeApplyModal()"></div>
+
+            <div
+                class="relative w-full max-w-2xl my-8 overflow-hidden text-left align-middle transition-all transform clay-card bg-surface rounded-3xl">
+                {{-- Modal Header --}}
+                <div class="flex justify-between items-center px-8 py-6 border-b border-outline-variant/20">
+                    <h3 class="text-2xl font-black font-headline text-on-surface" id="modal-title">
+                        Ứng tuyển: {{ $job->title }}
+                    </h3>
+                    <button onclick="closeApplyModal()"
+                        class="p-2 hover:bg-surface-container-low rounded-full transition-colors">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                {{-- Modal Body --}}
+                <form action="{{ route('jobs.apply', $job->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="px-8 py-6 space-y-6">
+                        <div class="space-y-2">
+                            <label class="font-bold text-sm text-on-surface-variant ml-2">Tải CV của bạn (PDF)</label>
+                            <div class="clay-recessed bg-surface-container-low rounded-2xl px-6 py-5">
+                                <input type="file" name="cv" accept="application/pdf" required
+                                    class="bg-transparent border-none focus:ring-0 w-full text-on-surface file:mr-4 file:py-2 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-primary file:text-white hover:file:bg-primary-dim transition-all" />
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="font-bold text-sm text-on-surface-variant ml-2">Giới thiệu về bạn</label>
+                            <div class="clay-recessed bg-surface-container-low rounded-2xl px-6 py-5">
+                                <textarea name="introduction" rows="5" required
+                                    class="bg-transparent border-none focus:ring-0 w-full text-on-surface resize-none"
+                                    placeholder="Hãy viết vài dòng giới thiệu về bản thân, kinh nghiệm và lý do bạn phù hợp với vị trí này..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="clay-card bg-yellow-50/80 p-5 rounded-2xl text-sm">
+                            <strong class="text-yellow-800 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">warning</span>
+                                Lưu ý
+                            </strong>
+                            <p class="text-yellow-700 mt-1">InternHub khuyên tất cả các bạn hãy luôn cẩn trọng trong quá
+                                trình tìm việc và chủ động nghiên cứu về thông tin công ty trước khi ứng tuyển.
+                                Hãy kiểm tra kỹ website chính thức, đánh giá từ nhân viên cũ, cũng như thông tin pháp lý của
+                                doanh nghiệp để đảm bảo tính minh bạch và uy tín. Tránh cung cấp thông tin cá nhân nhạy cảm
+                                hoặc chuyển tiền dưới bất kỳ hình thức nào khi chưa xác minh rõ ràng.</p>
+                        </div>
+                    </div>
+
+                    {{-- Modal Footer --}}
+                    <div class="flex gap-4 px-8 py-6 bg-surface-container-low/30 border-t border-outline-variant/20">
+                        <button type="button" onclick="closeApplyModal()"
+                            class="clay-card bg-surface-container-low px-6 py-3 text-on-surface-variant font-bold rounded-xl hover-lift">
+                            Hủy
+                        </button>
+                        <button type="submit"
+                            class="clay-btn-primary flex-1 py-3 text-white font-black rounded-xl hover-lift press-scale flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">send</span>
+                            Gửi đơn ứng tuyển
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
-    {{-- Job Detail Container --}}
-    <div class="job-container d-flex flex-wrap justify-content-center gap-4" style="margin: 20px;">
+    {{-- Success Modal --}}
+    <div id="successModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="success-modal-title"
+        role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity" aria-hidden="true"
+                onclick="closeSuccessModal()"></div>
 
-        {{-- Chi tiết công việc --}}
-        <div class="job-detail grow" style="max-width: 950px;">
-            <h2>{{ $job->title }}</h2>
-            <p class="text-muted">📍 {{ $job->location }}</p>
-            <p>
-                <span class="badge badge-salary">Lương: {{ $job->salary }}</span>
-                <span class="badge badge-exp">Kinh nghiệm: {{ $job->experience }} năm</span>
-            </p>
-            <hr>
-
-            <h5>Mô tả công việc</h5>
-            <p>{{ $job->description }}</p>
-
-            <h5>Yêu cầu ứng viên</h5>
-            <ul>
-                @foreach (explode("\n", $job->candidate_requirements) as $req)
-                    @php
-                        $req = trim($req);
-                        if (substr($req, 0, 1) === '-') {
-                            $req = ltrim($req, '- ');
-                        }
-                    @endphp
-                    @if ($req)
-                        <li>{{ $req }}</li>
-                    @endif
-                @endforeach
-            </ul>
-
-            <h5>Thu nhập</h5>
-            <p>{{ $job->income }}</p>
-
-            <h5>Quyền lợi</h5>
-            <ul>
-                @foreach (explode("\n", $job->benefits) as $benefit)
-                    @php
-                        $benefit = trim($benefit);
-                        if (substr($benefit, 0, 1) === '-') {
-                            $benefit = ltrim($benefit, '- ');
-                        }
-                    @endphp
-                    @if ($benefit)
-                        <li>{{ $benefit }}</li>
-                    @endif
-                @endforeach
-            </ul>
-
-            <h5>Địa điểm làm việc</h5>
-            <p>{{ $job->work_location }}</p>
-
-            <h5>Thời gian làm việc</h5>
-            <p>{{ $job->work_time }}</p>
-
-            <h5>Cách thức ứng tuyển</h5>
-            <p>{{ $job->application_method }}</p>
-
-            <h5>Hạn nộp hồ sơ</h5>
-            <p>{{ $job->deadline }}</p>
-
-            <h5>Yêu cầu bằng cấp</h5>
-            <p>{{ $job->degree_requirements }}</p>
-            <hr>
-
-            {{-- Nút ứng tuyển --}}
-            <div class="job-actions text-center mb-4">
-                <a href="#" class="apply-btn" data-bs-toggle="modal" data-bs-target="#applyModal">Ứng tuyển ngay</a>
-            </div>
-
-            <form action="{{ route('jobs.save', $job->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-outline-primary">
-                    💾 Lưu công việc
+            <div
+                class="relative w-full max-w-md p-8 overflow-hidden text-center align-middle transition-all transform clay-card bg-surface rounded-3xl">
+                <span class="material-symbols-outlined text-7xl text-primary mb-4">check_circle</span>
+                <h5 class="text-xl font-black text-on-surface mb-3" id="successMessage"></h5>
+                <button type="button" onclick="closeSuccessModal()"
+                    class="clay-btn-primary px-8 py-3 text-white font-bold rounded-xl hover-lift press-scale mt-6">
+                    Đóng
                 </button>
-            </form>
-
-        </div>
-
-        {{-- Modal Ứng tuyển --}}
-        <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="applyModalLabel">Ứng tuyển cho công việc: {{ $job->title }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <form action="{{ url('jobs/apply/' . $job->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="cvFile" class="form-label">Tải CV của bạn (PDF)</label>
-                                <input type="file" class="form-control" name="cv" id="cvFile"
-                                    accept="application/pdf" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="introText" class="form-label">Giới thiệu về bạn</label>
-                                <textarea class="form-control" name="introduction" id="introText" rows="4"
-                                    placeholder="Hãy viết vài dòng giới thiệu về bản thân..." required></textarea>
-                            </div>
-
-                            {{-- Lưu ý --}}
-                            <div class="alert alert-warning mt-3" style="font-size: 14px; line-height: 1.6;">
-                                <strong>Lưu ý:</strong><br>
-                                InternHub khuyên tất cả các bạn hãy luôn cẩn trọng trong quá trình tìm việc và chủ động
-                                nghiên cứu về thông tin công ty, vị trí việc làm trước khi ứng tuyển.<br>
-                                Ứng viên cần có trách nhiệm với hành vi ứng tuyển của mình. Nếu bạn gặp phải tin tuyển dụng
-                                hoặc nhận được liên lạc đáng ngờ của nhà tuyển dụng, hãy báo cáo ngay cho TopCV qua email
-                                <a href="mailto:internhub@topcv.vn">hotro@internhub.vn</a> để được hỗ trợ kịp thời.<br>
-                                <a href="#" target="_blank">Tìm hiểu thêm kinh nghiệm phòng tránh lừa đảo tại đây</a>.
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary">Gửi đơn ứng tuyển</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        {{-- Sidebar --}}
-        <div class="job-sidebar" style="max-width: 400px;">
-            <div class="sidebar-box">
-                <h4>Thông tin công ty</h4>
-                <hr>
-                <p>
-                    <strong>Công ty:</strong>
-                    {{ $job->employer->company_name ?? 'Chưa cập nhật' }}
-                </p>
-
-                <p>
-                    <strong>Website:</strong>
-                    <a href="{{ $job->employer->website ?? 'Chưa cập nhật' }}">{{ $job->employer->website ?? 'Chưa cập nhật' }}</a>
-                </p>
-
-                <p>
-                    <strong>Liên Hệ:</strong>
-                    {{ $job->employer->contact_email ?? 'Chưa cập nhật' }}
-                </p>
-            </div>
-
-            <div class="sidebar-box">
-                <h4>Mẹo phỏng vấn</h4>
-                <hr>
-                <ul>
-                    <li>Chuẩn bị kỹ hồ sơ</li>
-                    <li>Nghiên cứu công ty</li>
-                    <li>Ăn mặc lịch sự</li>
-                    <li>Đúng giờ</li>
-                </ul>
-            </div>
-
-            <div class="sidebar-box">
-                <h4>Việc làm liên quan</h4>
-                <hr>
-                <div class="related-job mb-3">
-                    <h5><a href="#">Frontend Developer</a></h5>
-                    <p class="salary">15 - 20 triệu</p>
-                    <p class="location">📍 Hà Nội</p>
-                    <p class="desc">Phát triển giao diện web, làm việc với ReactJS...</p>
-                </div>
-                <div class="related-job mb-3">
-                    <h5><a href="#">Backend Developer</a></h5>
-                    <p class="salary">18 - 25 triệu</p>
-                    <p class="location">📍 TP. Hồ Chí Minh</p>
-                    <p class="desc">Xây dựng API, quản lý cơ sở dữ liệu MySQL...</p>
-                </div>
-                <div class="related-job mb-3">
-                    <h5><a href="#">Tester QA</a></h5>
-                    <p class="salary">12 - 16 triệu</p>
-                    <p class="location">📍 Đà Nẵng</p>
-                    <p class="desc">Kiểm thử phần mềm, viết test case, báo lỗi...</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    {{-- Modal Thông báo Thành công --}}
-    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content text-center">
-                <div class="modal-body">
-                    <h5 id="successMessage" class="mb-3"></h5>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
-                </div>
             </div>
         </div>
     </div>
+    {{-- Share Modal --}}
+    <div id="shareModal"
+    class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/40 backdrop-blur-sm">
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-[0px_25px_60px_rgba(0,0,0,0.2)] relative">
 
-            @if (session('save_success'))
-                document.getElementById('successMessage').innerText = "{{ session('save_success') }}";
-                successModal.show();
-            @elseif (session('apply_success'))
-                document.getElementById('successMessage').innerText = "{{ session('apply_success') }}";
-                successModal.show();
-            @endif
-        });
-    </script>
+            {{-- Close --}}
+            <button onclick="closeShareModal()" class="absolute top-3 right-3 text-gray-400 hover:text-black">
+                ✕
+            </button>
+
+            <h3 class="text-xl font-bold mb-4 text-center">Chia sẻ công việc</h3>
+
+            {{-- Link --}}
+            <div class="flex items-center gap-2 bg-gray-100 rounded-lg px-3 py-2">
+                <input id="shareLink" type="text" readonly value="{{ url()->current() }}"
+                    class="flex-1 bg-transparent border-none focus:ring-0 text-sm">
+
+                <button onclick="copyLink()" class="bg-primary text-white px-3 py-1 rounded-md text-sm">
+                    Lưu Đường Dẫn
+                </button>
+            </div>
+
+            <p id="copyMsg" class="text-green-500 text-sm mt-3 hidden text-center">
+                Đã copy link!
+            </p>
+        </div>
+    </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        // Modal functions
+        function openApplyModal() {
+            document.getElementById('applyModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeApplyModal() {
+            document.getElementById('applyModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function shareJob() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '{{ $job->title }}',
+                    text: 'Xem công việc này trên Intern.hub',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Đã sao chép link công việc!');
+            }
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeApplyModal();
+                closeSuccessModal();
+            }
+        });
+
+        // Show success modal if session has message
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('save_success'))
+                document.getElementById('successMessage').innerText = "{{ session('save_success') }}";
+                document.getElementById('successModal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            @elseif (session('apply_success'))
+                document.getElementById('successMessage').innerText = "{{ session('apply_success') }}";
+                document.getElementById('successModal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            @endif
+        });
+
+        function openShareModal() {
+            const modal = document.getElementById('shareModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex'); // quan trọng để center modal
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeShareModal() {
+            const modal = document.getElementById('shareModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        function copyLink() {
+            const input = document.getElementById('shareLink');
+            input.select();
+            input.setSelectionRange(0, 99999);
+
+            navigator.clipboard.writeText(input.value);
+
+            const msg = document.getElementById('copyMsg');
+            msg.classList.remove('hidden');
+
+            setTimeout(() => {
+                msg.classList.add('hidden');
+            }, 2000);
+        }
+    </script>
+@endpush
