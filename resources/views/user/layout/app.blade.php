@@ -16,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet">
 
+    <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/png">
     {{-- Tailwind CDN (có thể thay bằng Vite trong production) --}}
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
