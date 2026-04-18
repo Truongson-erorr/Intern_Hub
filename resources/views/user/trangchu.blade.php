@@ -14,8 +14,7 @@
                     Bắt đầu sự nghiệp <br /><span class="text-primary-container"> cùng Intern.hub</span>
                 </h1>
                 <p class="text-xl text-on-surface-variant max-w-xl mb-12 leading-[1.7]">
-                    Nền tảng kết nối sinh viên với hàng ngàn doanh nghiệp hàng đầu tại Việt Nam. Khởi đầu sự nghiệp của bạn
-                    ngay hôm nay.
+                    Nền tảng kết nối sinh viên với hàng ngàn doanh nghiệp hàng đầu tại Việt Nam. Hãy cùng bắt đầu hành trình sự nghiệp rực rỡ của bạn ngay hôm nay.
                 </p>
 
                 {{-- Search Bar --}}
@@ -69,12 +68,6 @@
                 <div class="absolute inset-0 bg-primary-container/5 rounded-[4rem] rotate-3 -z-10"></div>
                 <div
                     class="bg-surface-container-lowest p-8 rounded-[3rem] shadow-2xl relative overflow-hidden border border-white/50">
-                    <div class="absolute top-0 right-0 p-8">
-                        <div
-                            class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-white">
-                            <span class="material-symbols-outlined">trending_up</span>
-                        </div>
-                    </div>
                     <div class="space-y-6">
                         <div class="h-64 rounded-2xl bg-surface-container-low overflow-hidden">
                             <img alt="Tech Preview" class="w-full h-full object-cover"
@@ -117,25 +110,53 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 @php
                     $categories = [
-                        ['icon' => 'code', 'name' => 'Web Dev', 'color' => 'bg-primary-fixed text-primary'],
-                        ['icon' => 'smartphone', 'name' => 'Mobile', 'color' => 'bg-secondary-fixed text-secondary'],
-                        ['icon' => 'database', 'name' => 'Database', 'color' => 'bg-tertiary-fixed text-tertiary'],
+                        [
+                            'icon' => 'code',
+                            'name' => 'Web Dev',
+                            'color' => 'bg-primary-fixed text-primary',
+                            'tags' => ['Laravel', 'React', 'Vue', 'Node.js'],
+                        ],
+                        [
+                            'icon' => 'smartphone',
+                            'name' => 'Mobile',
+                            'color' => 'bg-secondary-fixed text-secondary',
+                            'tags' => ['Flutter', 'Swift', 'Kotlin', 'React Native'],
+                        ],
+                        [
+                            'icon' => 'database',
+                            'name' => 'Database',
+                            'color' => 'bg-tertiary-fixed text-tertiary',
+                            'tags' => ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis'],
+                        ],
                         [
                             'icon' => 'cloud',
                             'name' => 'DevOps',
                             'color' => 'bg-primary-container/10 text-primary-container',
+                            'tags' => ['AWS', 'Docker', 'Kubernetes', 'CI/CD'],
                         ],
                         [
                             'icon' => 'security',
                             'name' => 'Network',
                             'color' => 'bg-secondary-container/10 text-secondary-container',
+                            'tags' => ['Cisco', 'Firewall', 'VPN', 'TCP/IP'],
                         ],
-                        ['icon' => 'psychology', 'name' => 'AI', 'color' => 'bg-error-container text-error'],
-                        ['icon' => 'palette', 'name' => 'UI/UX', 'color' => 'bg-inverse-primary/30 text-primary'],
+                        [
+                            'icon' => 'psychology',
+                            'name' => 'AI',
+                            'color' => 'bg-error-container text-error',
+                            'tags' => ['Python', 'TensorFlow'],
+                        ],
+                        [
+                            'icon' => 'palette',
+                            'name' => 'UI/UX',
+                            'color' => 'bg-inverse-primary/30 text-primary',
+                            'tags' => ['Figma', 'Adobe XD', 'Sketch'],
+                        ],
                         [
                             'icon' => 'api',
                             'name' => 'Backend',
                             'color' => 'bg-tertiary-fixed-dim text-on-tertiary-fixed-variant',
+                            'tags' => ['Java', '.NET', 'Go', 'Python'],
                         ],
                     ];
                 @endphp
@@ -149,10 +170,12 @@
                             </div>
                             <h3 class="text-2xl mb-4">{{ $cat['name'] }}</h3>
                             <div class="flex flex-wrap gap-2">
-                                <span
-                                    class="text-xs font-bold text-outline uppercase px-2 py-1 bg-surface-container-low rounded">Hot</span>
-                                <span
-                                    class="text-xs font-bold text-outline uppercase px-2 py-1 bg-surface-container-low rounded">Hot</span>
+                                @foreach ($cat['tags'] as $tag)
+                                    <span
+                                        class="text-xs font-bold text-outline uppercase px-2 py-1 bg-surface-container-low rounded">
+                                        {{ $tag }}
+                                    </span>
+                                @endforeach
                             </div>
                         </div>
                     </a>

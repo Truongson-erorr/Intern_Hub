@@ -54,19 +54,19 @@ Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
 */
 
 Route::middleware('auth')->group(function () {
-    
+
     // Profile
     Route::prefix('user/profile')->name('user.profile.')->group(function () {
         Route::get('/', fn() => view('user.profile'))->name('index');
         Route::get('/edit', [UserController::class, 'edit'])->name('edit');
         Route::post('/update', [UserController::class, 'update'])->name('update');
     });
-    
+
     // Job Applications
     Route::post('/jobs/{id}/apply', [JobApplicationController::class, 'store'])->name('jobs.apply');
     Route::get('/user/my-applications', [UserController::class, 'myApplications'])->name('user.my_applications');
-    
-    
+
+
     // Saved Jobs
     Route::prefix('user/saved')->name('user.saved.')->group(function () {
         Route::get('/', [JobController::class, 'savedJobs'])->name('index');
@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/{id}', [JobController::class, 'saveJob'])->name('store');
         Route::delete('/{id}', [JobController::class, 'unsaveJob'])->name('destroy');
     });
-    
+
     // Job Recommendations
     Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])->name('user.recommend_job');
 });
@@ -94,13 +94,13 @@ require __DIR__ . '/employer.php';
 */
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    
+
     // Dashboard
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    
+
     // User Management
     Route::resource('users', UserManagerController::class)->except(['show', 'create']);
-    
+
     // Job Management (Admin)
     Route::prefix('jobs')->name('jobs.')->group(function () {
         Route::get('/', [JobManagerController::class, 'index'])->name('index');
@@ -111,13 +111,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/{id}/approve', [JobManagerController::class, 'approveJob'])->name('approve');
         Route::patch('/{id}/reject', [JobManagerController::class, 'rejectJob'])->name('reject');
     });
-    
+
     // Application Management
     Route::get('/applications', [ApplicationManagerController::class, 'index'])->name('applications.index');
-    
+
     // Category Management
     Route::resource('categories', CategoryController::class)->except(['show', 'create']);
-    
+
     // Employer Management (Admin)
     Route::resource('employers', EmployerManagerController::class)->except(['show', 'create']);
 });

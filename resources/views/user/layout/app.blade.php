@@ -192,6 +192,18 @@
                                     <span>Đơn ứng tuyển</span>
                                 </a>
 
+                                <a href="{{ route('user.recommend_job') }}"
+                                    class="flex items-center justify-between gap-3 px-5 py-3 hover:bg-slate-100 transition">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-base">recommend</span>
+                                        <span>Việc làm đề xuất</span>
+                                    </div>
+
+                                    <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+                                        AI
+                                    </span>
+                                </a>
+
                                 {{-- Divider --}}
                                 <div class="my-2 border-t"></div>
 
@@ -254,5 +266,6 @@
 
     @stack('scripts')
 </body>
+
 </html>
 <script src="//unpkg.com/alpinejs" defer></script>
