@@ -16,6 +16,12 @@
 
     <link href="{{ asset('css/employer-custom.css') }}" rel="stylesheet">
 
+    <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @stack('css')
 </head>
 
@@ -48,6 +54,20 @@
                             {{ $pendingCount }}
                         </span>
                     @endif
+                </a>
+
+                <a href="{{ route('employer.talent_pool.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('employer.talent_pool.*') ? 'active' : '' }}">
+                    <i class="fas fa-search"></i> Tìm kiếm tài năng
+                </a>
+
+                <a href="{{ route('employer.messages.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->routeIs('employer.messages.index') ? 'active' : '' }}">
+                    <i class="fas fa-envelope"></i> Quản lý tin nhắn
+                    {{-- Nếu muốn hiện số tin nhắn mới chưa đọc từ sinh viên (nếu sau này bạn làm thêm chiều ngược lại) --}}
+                    {{-- @if (isset($unreadMessagesCount) && $unreadMessagesCount > 0)
+        <span class="badge bg-primary rounded-pill ms-2">{{ $unreadMessagesCount }}</span>
+    @endif --}}
                 </a>
 
                 <a href="{{ route('employer.profile.index') }}"

@@ -25,9 +25,9 @@ class GeminiService
         Salary: {$job->salary}
         Experience: {$job->experience}
         ----------------";
-                })->implode("\n");
+        })->implode("\n");
 
-                $prompt = "
+        $prompt = "
         You are a job matching AI.
 
         Candidate:
@@ -94,7 +94,6 @@ class GeminiService
             ]);
 
             return $ids;
-
         } catch (\Exception $e) {
             Log::error('🔥 GEMINI ERROR', [
                 'message' => $e->getMessage()

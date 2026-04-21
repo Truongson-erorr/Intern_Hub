@@ -5,7 +5,10 @@ use App\Http\Controllers\Employer\AccountController;
 use App\Http\Controllers\Employer\CandidateController;
 use App\Http\Controllers\Employer\DashboardController;
 use App\Http\Controllers\Employer\JobController;
+use App\Http\Controllers\Employer\MessageController;
 use App\Http\Controllers\Employer\ProfileController;
+use App\Http\Controllers\Employer\TalentPoolController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,19 +28,26 @@ Route::prefix('employer')
     ->name('employer.')
     ->middleware(['auth', 'employer'])
     ->group(function () {
-        
+
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        
+
         // Job Management (Sử dụng resource route cho CRUD chuẩn)
         Route::resource('jobs', JobController::class)->except(['show']);
-        
+
         // Profile Management
         Route::prefix('profile')->name('profile.')->group(function () {
             Route::get('/', [ProfileController::class, 'index'])->name('index');
             Route::post('/update', [ProfileController::class, 'update'])->name('update');
         });
-        
+
+        // Candidate Management
+        Route::prefix('talent_pool')->name('talent_pool.')->group(function () {
+            Route::get('/', [TalentPoolController::class, 'index'])->name('index');
+            Route::get('/recommended', [TalentPoolController::class, 'recommendedTalents'])
+                ->name('recommended');
+        });
+
         // Candidate Management
         Route::prefix('candidates')->name('candidates.')->group(function () {
             Route::get('/', [CandidateController::class, 'index'])->name('index');
@@ -46,11 +56,18 @@ Route::prefix('employer')
             Route::get('/{id}/download', [CandidateController::class, 'downloadCv'])->name('download');
             Route::get('/{id}/view-cv', [CandidateController::class, 'viewCv'])->name('view-cv');
         });
-        
+
         // Account Management
         Route::prefix('account')->name('account.')->group(function () {
             Route::get('/', [AccountController::class, 'index'])->name('index');
             Route::post('/update-info', [AccountController::class, 'updateInfo'])->name('updateInfo');
             Route::post('/change-password', [AccountController::class, 'changePassword'])->name('changePassword');
+        });
+
+        // Message
+        Route::prefix('messages')->name('messages.')->group(function () {
+            Route::get('/', [MessageController::class, 'index'])->name('index');
+            Route::post('/send', [MessageController::class, 'sendMessage'])
+                ->name('send');
         });
     });
