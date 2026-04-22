@@ -127,8 +127,8 @@
             {{-- Desktop Links --}}
             <div class="hidden md:flex items-center space-x-8">
                 <a class="{{ request()->routeIs('user.trangchu') ? 'text-blue-600 font-medium border-b-2 border-blue-600 pb-1' : 'text-slate-600 hover:text-blue-500 transition-colors' }} font-['Be_Vietnam_Pro'] leading-[1.7] tracking-tight"
-                href="{{ route('user.trangchu') }}">
-                Trang Chủ
+                    href="{{ route('user.trangchu') }}">
+                    Trang Chủ
                 </a>
                 <a class="{{ request()->routeIs('user.timviec') ? 'text-blue-600 font-medium border-b-2 border-blue-600 pb-1' : 'text-slate-600 hover:text-blue-500 transition-colors' }} font-['Be_Vietnam_Pro'] leading-[1.7] tracking-tight"
                     href="{{ route('user.timviec') }}">Tìm Việc</a>
@@ -193,6 +193,29 @@
                                     class="flex items-center gap-3 px-5 py-3 hover:bg-slate-100 transition">
                                     <span class="material-symbols-outlined text-base">description</span>
                                     <span>Đơn đã ứng tuyển</span>
+                                </a>
+                                
+                                {{-- Messages from Employers --}}
+                                <a href="{{ route('user.messages') }}"
+                                    class="flex items-center justify-between gap-3 px-5 py-3 hover:bg-slate-100 transition">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-base">mail</span>
+                                        <span>Tin nhắn tuyển dụng</span>
+                                    </div>
+
+                                    {{-- Badge thông báo tin nhắn mới --}}
+                                    @php
+                                        $unreadCount = \App\Models\Message::where('receiver_id', Auth::id())
+                                            ->where('is_read', 0)
+                                            ->count();
+                                    @endphp
+
+                                    @if ($unreadCount > 0)
+                                        <span
+                                            class="text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded-full font-bold animate-pulse">
+                                            {{ $unreadCount }}
+                                        </span>
+                                    @endif
                                 </a>
 
                                 <a href="{{ route('user.recommend_job') }}"

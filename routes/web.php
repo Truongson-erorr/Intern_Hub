@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\{
     AdminController,
     ApplicationManagerController,
@@ -22,7 +23,26 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', fn() => view('user.trangchu'))->name('home');
+Route::get('/', function () {
+    if (Auth::check()) {
+        $role = Auth::user()->role;
+
+        switch ($role) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'employer':
+                return redirect()->route('employer.dashboard');
+            case 'user':
+                // Nếu là sinh viên thì có thể cho ở lại trang chủ hoặc vào trang riêng
+                return view('user.trangchu');
+            default:
+                return view('user.trangchu');
+        }
+    }
+
+    // Nếu chưa đăng nhập thì hiện trang chủ chung
+    return view('user.trangchu');
+})->name('home');
 
 // Authentication
 Route::prefix('authen')->name('authen.')->group(function () {
@@ -76,9 +96,16 @@ Route::middleware('auth')->group(function () {
     });
 
     // Job Recommendations
-        // Job Recommendations
     Route::get('/user/recommend-jobs', [UserController::class, 'recommendJobs'])
-    ->name('user.recommend_job');
+        ->name('user.recommend_job');
+
+    Route::prefix('profile')->name('user.')->group(function () {
+        Route::post('/cv-upload', [UserController::class, 'uploadCv'])->name('cv.upload');
+        Route::post('/cv-toggle-public', [UserController::class, 'togglePublic'])->name('cv.toggle-public');
+    });
+    // Message 
+    Route::get('/my-messages', [UserController::class, 'messages'])->name('user.messages');
+    Route::post('/messages/{id}/accept', [UserController::class, 'acceptInvitation'])->name('user.messages.accept');
 });
 
 /*

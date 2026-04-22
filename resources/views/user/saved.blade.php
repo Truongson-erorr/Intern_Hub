@@ -1,6 +1,6 @@
 @extends('user.layout.app') {{-- hoặc 'user.layout.index' tùy cấu trúc của bạn --}}
 
-@section('title', 'Công việc đã lưu')
+@section('title', 'Tin tuyển dụng đã lưu')
 
 @push('styles')
     <style>
@@ -37,10 +37,10 @@
 @endpush
 
 @section('content')
-    <main class="pt-32 pb-20 px-8 max-w-7xl mx-auto min-h-screen">
+    <main class="flex-grow max-w-[1440px] mx-auto w-full px-8 py-16">
         {{-- Page Header --}}
         <header class="mb-16">
-            <h1 class="text-5xl md:text-6xl text-on-surface mb-4 tracking-tight">Công việc đã lưu</h1>
+            <h1 class="text-5xl md:text-6xl text-on-surface mb-4 tracking-tight">Tin tuyển dụng đã lưu</h1>
             <p class="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
                 Danh sách các công việc bạn đã lưu để tham khảo hoặc ứng tuyển sau. Quản lý sự nghiệp của bạn một cách thông
                 minh.
