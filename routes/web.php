@@ -13,7 +13,6 @@ use App\Http\Controllers\{
     JobApplicationController,
     JobController,
     UserController,
-    AIRecommendationController
 };
 use Illuminate\Support\Facades\Route;
 

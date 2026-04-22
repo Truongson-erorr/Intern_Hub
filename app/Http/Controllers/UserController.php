@@ -7,18 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\JobApplication;
 use App\Models\Job;
+use App\Models\Category;
 
 class UserController extends Controller
 {
-    /**
-     * Hiển thị form chỉnh sửa thông tin cá nhân
-     */
-    public function edit()
-    {
-        $user = Auth::user();
-        return view('user.edit', compact('user'));
-    }
-
     /**
      * Cập nhật thông tin người dùng
      */
@@ -108,4 +100,11 @@ class UserController extends Controller
         return view('user.recommend_job', compact('recommendedJobs'));
     }
 
+    public function edit()
+    {
+        $user = auth()->user();
+        $categories = Category::all();
+
+        return view('user.edit', compact('user', 'categories'));
+    }
 }
